@@ -2,13 +2,13 @@
     <div class="command">
         <div class="add">
             <span>车位ID</span>
-            <el-input v-model="parkIdInput" style="width: 240px" placeholder="Please input" />
+            <el-input v-model="parkIdInput" style="width: 240px" placeholder="请输入" />
             <span>用户ID</span>
-            <el-input v-model="userIdInput" style="width: 240px" placeholder="Please input" />
+            <el-input v-model="userIdInput" style="width: 240px" placeholder="请输入" />
             <span>车牌号</span>
-            <el-input v-model="carIdInput" style="width: 240px" placeholder="Please input" />
+            <el-input v-model="carIdInput" style="width: 240px" placeholder="请输入" />
             <span>开始时间</span>
-            <el-input v-model="startTimeInput" style="width: 240px" placeholder="Please input" />
+            <el-input v-model="startTimeInput" style="width: 240px" placeholder="请输入" />
             <el-button type="success" @click="addCar">添加</el-button>
         </div>
     </div>
@@ -19,18 +19,34 @@
         <el-table-column prop="startTime" label="开始时间" width="180" />
         <el-table-column align="right">
             <template #header>
-                <el-input v-model="search" size="small" placeholder="Type to search" style="width: 50%;" />
+                <el-input v-model="search" size="small" placeholder="搜索" style="width: 50%;" />
             </template>
             <template #default="scope">
                 <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
-                    Edit
+                    编辑
                 </el-button>
                 <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
-                    Delete
+                    删除
                 </el-button>
             </template>
         </el-table-column>
     </el-table>
+    <el-dialog v-model="dialogVisible" title="编辑车辆信息">
+        <div class="edit">
+            <span>车位ID</span>
+            <el-input v-model="parkIdEdit" placeholder="请输入车位ID" />
+            <span>用户ID</span>
+            <el-input v-model="userIdEdit" placeholder="请输入用户ID" />
+            <span>车牌号</span>
+            <el-input v-model="carIdEdit" placeholder="请输入车牌号" />
+            <span>开始时间</span>
+            <el-input v-model="startTimeEdit" placeholder="请输入开始时间" />
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="handleCancelEdit">取 消</el-button>
+            <el-button type="primary" @click="saveEdit">确 定</el-button>
+        </span>
+    </el-dialog>
 </template>
 
 <script setup>
@@ -39,8 +55,14 @@
     const userIdInput = ref('')
     const carIdInput = ref('')
     const startTimeInput = ref('')
+    const parkIdEdit = ref('')
+    const userIdEdit = ref('')
+    const carIdEdit = ref('')
+    const startTimeEdit = ref('')
     const search = ref('')
-    const tableData = [
+    const currentEditIndex = ref(null);
+    const dialogVisible = ref(false);
+    const tableData = ref([
         {
             parkId: 1,
             userId: 123,
@@ -65,26 +87,22 @@
             carId: '鄂A89521',
             startTime: '2024-10-01 17:51:35'
         },
-    ]
+    ])
 
     const addCar = () => {
-        console.log('addCar()')
+        console.log('addCar')
         const newCar = {  
             parkId: parseInt(parkIdInput.value, 10),
             userId: parseInt(userIdInput.value, 10),
             carId: carIdInput.value,  
             startTime: startTimeInput.value  
         }
-        tableData.push(newCar)
-        parkIdInput.value = ''  
-        userIdInput.value = ''  
-        carIdInput.value = ''  
-        startTimeInput.value = ''
-        console.log(tableData)
+        tableData.value.push(newCar)
+        clearInputs()
     }
 
     const filterTableData = computed(() =>
-        tableData.filter(
+        tableData.value.filter(
             (data) => 
                 !search.value ||
                 data.parkId.toString().includes(search.value) ||
@@ -94,6 +112,56 @@
         )
         
     )
+
+    const handleEdit = (index, row) => {
+        dialogVisible.value = true;
+        currentEditIndex.value = index;
+        parkIdEdit.value = row.parkId;
+        userIdEdit.value = row.userId;
+        carIdEdit.value = row.carId;
+        startTimeEdit.value = row.startTime;
+    }
+
+    const handleDelete = (index) => {
+        console.log('delete')
+        tableData.value.splice(index, 1)
+    }
+
+    const saveEdit = () => {
+        const updatedCar = {  
+            parkId: parseInt(parkIdEdit.value, 10),
+            userId: parseInt(userIdEdit.value, 10),
+            carId: carIdEdit.value,  
+            startTime: startTimeEdit.value  
+        }
+
+        if (currentEditIndex.value !== null) {
+            tableData.value[currentEditIndex.value] = updatedCar;
+            currentEditIndex.value = null;
+        }
+
+        dialogVisible.value = false;
+        clearEditInputs();
+    }
+
+    const handleCancelEdit = () => {
+        dialogVisible.value = false
+        clearEditInputs()
+    }
+
+    const clearInputs = () => {
+        parkIdInput.value = '';  
+        userIdInput.value = '';  
+        carIdInput.value = '';  
+        startTimeInput.value = '';
+    }
+
+    const clearEditInputs = () => {
+        parkIdEdit.value = '';  
+        userIdEdit.value = '';  
+        carIdEdit.value = '';  
+        startTimeEdit.value = '';
+    }
 </script>
 
 <style scoped>
@@ -114,5 +182,15 @@
 
     .command .el-button {
         margin: 0 20px 0 20px;
+    }
+
+    .edit span {
+        display: flex;
+        margin: 10px 0;
+    }
+
+    .dialog-footer {
+        display: flex;
+        margin: 15px 0 0 0;
     }
 </style>
