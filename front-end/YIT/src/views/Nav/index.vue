@@ -1,18 +1,20 @@
 <template>
     <div class="nav">
         <el-menu
-          default-active="1"
-          @open="handleOpen"
-          @close="handleClose"
+          :default-active="currentActive"
         >
-          <el-menu-item index="1">
-            <el-icon><icon-menu /></el-icon>
-            <span>车辆管理</span>
-          </el-menu-item>
-          <el-menu-item index="2">
-            <el-icon><document /></el-icon>
-            <span>车位总览</span>
-          </el-menu-item>
+          <router-link to="/">
+            <el-menu-item index="/">
+              <el-icon><icon-menu /></el-icon>
+              <span>车辆管理</span>
+            </el-menu-item>
+          </router-link>
+          <router-link to="/map">
+            <el-menu-item index="/map">
+              <el-icon><document /></el-icon>
+              <span>车位总览</span>
+            </el-menu-item>
+          </router-link>
         </el-menu>
     </div>
     <RouterView />
@@ -25,12 +27,8 @@
     Location,
     Setting,
   } from '@element-plus/icons-vue'
-  const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-  }
-  const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-  }
+  import {ref} from 'vue';
+  const currentActive = ref(window.location.pathname);
 </script>
 
 <style scoped>
@@ -43,5 +41,9 @@
 
     .nav .el-menu {
         border: none;
+    }
+
+    a {
+      text-decoration: none;
     }
 </style>
