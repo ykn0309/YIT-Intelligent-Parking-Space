@@ -39,7 +39,7 @@ export async function deleteCar(parkId) {
 //getMap
 export async function getMap() {
     try {
-        const response = await axios.get( `${BASE_URL}/api/getMap`);
+        const response = await axios.get( `${BASE_URL}/api/getCarsMap`);
         return response.data.data;
     } catch (error) {
         throw new Error('getMap() failed.');
