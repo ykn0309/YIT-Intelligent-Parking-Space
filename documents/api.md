@@ -81,7 +81,7 @@
     "userInformation":
         {
           "username": "圆角",
-          "password": "114514"，
+          "password": "114514",
         }
 }
 ```
@@ -107,11 +107,11 @@
     "usersList":[
         {
           "username": "圆角",
-          "password": "114514"，
+          "password": "114514",
         },
-    	{···},
-		{···},
-		···
+        {···},
+		    {···},
+		    ···
     ]
 }
 ```
