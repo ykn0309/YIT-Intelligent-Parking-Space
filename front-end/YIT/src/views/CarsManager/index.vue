@@ -9,7 +9,7 @@
             <el-input v-model="carIdInput" style="width: 240px" placeholder="请输入" />
             <span>开始时间</span>
             <el-input v-model="startTimeInput" style="width: 240px" placeholder="请输入" />
-            <el-button type="success" @click="addCar">添加</el-button>
+            <el-button type="success" @click="addCar1">添加</el-button>
         </div>
     </div>
     <el-table :data="filterTableData" class="table">
@@ -50,7 +50,8 @@
 </template>
 
 <script setup>
-    import { computed, ref } from 'vue'
+    import { computed, onMounted, ref } from 'vue'
+    import { addCar, deleteCar, getAllCars } from '@/utils/api';
     const parkIdInput = ref('')
     const userIdInput = ref('')
     const carIdInput = ref('')
@@ -63,42 +64,62 @@
     const currentEditIndex = ref(null);
     const dialogVisible = ref(false);
     const tableData = ref([
-        {
-            parkId: 1,
-            userId: 123,
-            carId: '鄂A12345',
-            startTime: '2024-10-01 14:00:56'
-        },
-        {
-            parkId: 2,
-            userId: 456,
-            carId: '鄂A67890',
-            startTime: '2024-10-02 15:23:12'
-        },
-        {
-            parkId: 3,
-            userId: 789,
-            carId: '鄂A56874',
-            startTime: '2024-10-02 09:30:02'
-        },
-        {
-            parkId: 4,
-            userId: 259,
-            carId: '鄂A89521',
-            startTime: '2024-10-01 17:51:35'
-        },
+        // {
+        //     parkId: 1,
+        //     userId: 123,
+        //     carId: '鄂A12345',
+        //     startTime: '2024-10-01 14:00:56'
+        // },
+        // {
+        //     parkId: 2,
+        //     userId: 456,
+        //     carId: '鄂A67890',
+        //     startTime: '2024-10-02 15:23:12'
+        // },
+        // {
+        //     parkId: 3,
+        //     userId: 789,
+        //     carId: '鄂A56874',
+        //     startTime: '2024-10-02 09:30:02'
+        // },
+        // {
+        //     parkId: 4,
+        //     userId: 259,
+        //     carId: '鄂A89521',
+        //     startTime: '2024-10-01 17:51:35'
+        // },
     ])
 
-    const addCar = () => {
-        console.log('addCar')
+    const fetchAllCars = async () => {
+        console.log('fetchAllCars')
+        try {
+            const response = await getAllCars()
+            tableData.value = response
+        } catch (error) {
+            console.log('fetchAllCars() failed')
+        }
+    }
+
+    onMounted(() => {
+        fetchAllCars()
+    })
+
+    const addCar1 = async () => {
+        console.log('addCar1')
         const newCar = {  
             parkId: parseInt(parkIdInput.value, 10),
             userId: parseInt(userIdInput.value, 10),
             carId: carIdInput.value,  
-            startTime: startTimeInput.value  
+            startTime: startTimeInput.value,
+            occupied: true
         }
-        tableData.value.push(newCar)
-        clearInputs()
+        try {
+            const response = await addCar(newCar)
+            tableData.value.push(newCar)
+            clearInputs()
+        } catch (error) {
+            console.log('addCar1() failed')
+        }
     }
 
     const filterTableData = computed(() =>
@@ -122,9 +143,14 @@
         startTimeEdit.value = row.startTime;
     }
 
-    const handleDelete = (index) => {
-        console.log('delete')
-        tableData.value.splice(index, 1)
+    const handleDelete = async (index, row) => {
+        try {
+            const response = await deleteCar(row.parkId)
+            tableData.value.splice(index, 1)
+            console.log('delete')
+        } catch(error) {
+            console.log('handleDelete() failed')
+        }
     }
 
     const saveEdit = () => {
