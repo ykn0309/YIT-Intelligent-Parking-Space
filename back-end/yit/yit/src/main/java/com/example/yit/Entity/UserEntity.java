@@ -14,7 +14,6 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
 
-    @Column(unique = true)
     private String  userName;
     private String  password;
     private Integer isAdmin;
