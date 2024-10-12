@@ -46,11 +46,11 @@ public class ParkController {
         return new RespBean("success","",null);
     }
 
-    @RequestMapping(value = "deleteCar", method = RequestMethod.POST)
-    public @ResponseBody RespBean deleteCar(@RequestBody Park park)
+    @RequestMapping(value = "deleteCar", method = RequestMethod.GET)
+    public @ResponseBody RespBean deleteCar(int parkId)
     {
         System.out.println("减少汽车：");
-        parkService.deleteCar(park);
+        parkService.deleteCar(parkId);
         return new RespBean("success","",null);
     }
 

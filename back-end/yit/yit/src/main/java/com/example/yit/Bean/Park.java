@@ -6,7 +6,7 @@ public record Park(
 
         String carId,
 
-        String startDate,
+        String startTime,
 
         boolean occupied
 ) {

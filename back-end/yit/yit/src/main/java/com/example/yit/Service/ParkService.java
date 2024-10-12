@@ -83,11 +83,11 @@ public class ParkService {
         return park.parkId();
     }
 
-    public Integer deleteCar(Park park)
+    public Integer deleteCar(int parkId)
     {
-        occupiedParkRepository.deleteById(park.parkId());
-        parkLocationRepository.deleteById(park.parkId());
-        return park.parkId();
+        occupiedParkRepository.deleteById(parkId);
+        parkLocationRepository.deleteById(parkId);
+        return parkId;
     }
 
 }
