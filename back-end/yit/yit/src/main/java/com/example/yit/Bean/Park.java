@@ -9,6 +9,8 @@ public record Park(
         String startDate,
 
         boolean occupied
+
+        //siuuuuuuuuu
 ) {
     public Park(){this(0,0,null,null,false);
     }
