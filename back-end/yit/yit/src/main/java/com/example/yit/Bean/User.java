@@ -1,5 +1,4 @@
 package com.example.yit.Bean;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable

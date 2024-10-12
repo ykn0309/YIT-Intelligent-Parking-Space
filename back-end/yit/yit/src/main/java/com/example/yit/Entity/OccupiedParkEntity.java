@@ -14,7 +14,6 @@ public class OccupiedParkEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer parkId;
 
-    @Column(unique = true)
     private Integer userId;
     private String carId;
     private String startTime;
