@@ -86,7 +86,11 @@ public class ParkService {
     public Integer deleteCar(int parkId)
     {
         occupiedParkRepository.deleteById(parkId);
-        parkLocationRepository.deleteById(parkId);
+        ParkLocationEntity temp=parkLocationRepository.findById(parkId).get();
+        temp.setYlabel(0);
+        temp.setXlabel(0);
+        temp.setOccupied(0);
+        parkLocationRepository.save(temp);
         return parkId;
     }
 

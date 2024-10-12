@@ -11,7 +11,6 @@ import jakarta.persistence.Table;
 @Table(name = "parklocations")
 public class ParkLocationEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer parkId;
 
     private Integer xlabel;
