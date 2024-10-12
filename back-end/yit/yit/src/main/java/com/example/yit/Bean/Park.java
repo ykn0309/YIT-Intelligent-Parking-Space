@@ -11,6 +11,7 @@ public record Park(
         boolean occupied
 
         //siuuuuuuuuu
+        //cristiano
 ) {
     public Park(){this(0,0,null,null,false);
     }
