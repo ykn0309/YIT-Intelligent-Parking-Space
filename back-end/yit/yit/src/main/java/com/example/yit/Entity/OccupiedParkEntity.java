@@ -17,7 +17,7 @@ public class OccupiedParkEntity {
     @Column(unique = true)
     private Integer userId;
     private String carId;
-    private String startDate;
+    private String startTime;
     private Integer occupied;
 
     public Integer getParkId() {
@@ -43,11 +43,11 @@ public class OccupiedParkEntity {
         this.carId = carId;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getStartTime() {
+        return startTime;
     }
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
     public Integer getOccupied() {
         return occupied;

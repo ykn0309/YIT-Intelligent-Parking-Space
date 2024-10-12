@@ -29,7 +29,7 @@ public class ParkService {
             if(isOccupied==1)
             {
                 OccupiedParkEntity OPentity=occupiedParkRepository.findById(PLentity.getParkId()).get();
-                Park ypark=new Park(OPentity.getParkId(),OPentity.getUserId(),OPentity.getCarId(),OPentity.getStartDate(),true);
+                Park ypark=new Park(OPentity.getParkId(),OPentity.getUserId(),OPentity.getCarId(),OPentity.getStartTime(),true);
                 result.add(ypark);
             }
             else
@@ -40,7 +40,7 @@ public class ParkService {
         }
         result.sort(
                 Comparator.comparing(Park::parkId)
-                        .thenComparing(Park::startDate)
+                        .thenComparing(Park::startTime)
         );
         return result;
     }
@@ -51,12 +51,12 @@ public class ParkService {
         Iterable<OccupiedParkEntity> iterables=occupiedParkRepository.findAll();
         for(OccupiedParkEntity OPentity : iterables)
         {
-            Park park=new Park(OPentity.getParkId(),OPentity.getUserId(),OPentity.getCarId(),OPentity.getStartDate(),true);
+            Park park=new Park(OPentity.getParkId(),OPentity.getUserId(),OPentity.getCarId(),OPentity.getStartTime(),true);
             result.add(park);
         }
         result.sort(
                 Comparator.comparing(Park::parkId)
-                        .thenComparing(Park::startDate)
+                        .thenComparing(Park::startTime)
         );
         return result;
     }
@@ -70,7 +70,7 @@ public class ParkService {
         OPentity.setParkId(park.parkId());
         OPentity.setOccupied(1);
         OPentity.setUserId(park.userId());
-        OPentity.setStartDate(park.startDate());
+        OPentity.setStartTime(park.startTime());
         occupiedParkRepository.save(OPentity);
 
         PLentity.setOccupied(1);
