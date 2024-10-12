@@ -143,11 +143,11 @@ function handleLogin(formEl: FormInstance | undefined) {
     if (!formEl) return
 formEl.validate((valid) => {
   if (valid) {
-    http.post('/login', loginUser.value)
+    http.post('http://localhost:8080/login', loginUser.value)
       .then(response => {
             console.log(response)
         if (response.status == 'success') {
-          router.push('/project');
+          router.push('map');
           window.sessionStorage.setItem('userid', response.data[0])
           window.sessionStorage.setItem('username', response.data[1])
           // window.sessionStorage.setItem('nickname', response.value[1])
@@ -210,7 +210,7 @@ function handleRegister(formEl: FormInstance | undefined) {
     if (!formEl) return
 formEl.validate((valid) => {
   if (valid) {
-    http.post('/register', registerUser.value)
+    http.post('http://localhost:8080/register', registerUser.value)
       .then(response => {
             console.log(response)
         if (response.status == 'success') {
