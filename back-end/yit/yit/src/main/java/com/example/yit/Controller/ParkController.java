@@ -16,7 +16,7 @@ import com.example.yit.Repository.*;
 import com.example.yit.Service.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/park")
 @CrossOrigin(origins = "http://localhost:5173")
 public class ParkController {
     @Autowired
@@ -46,7 +46,7 @@ public class ParkController {
         return new RespBean("success","",null);
     }
 
-    @RequestMapping(value = "deleteCar", method = RequestMethod.GET)
+    @RequestMapping(value = "deleteCar", method = RequestMethod.DELETE)
     public @ResponseBody RespBean deleteCar(int parkId)
     {
         System.out.println("减少汽车：");
