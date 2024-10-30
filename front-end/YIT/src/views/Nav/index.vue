@@ -15,6 +15,12 @@
               <span>车位总览</span>
             </el-menu-item>
           </router-link>
+          <router-link to="/camera">
+            <el-menu-item index="/camera">
+              <el-icon><VideoCameraFilled /></el-icon>
+              <span>模拟摄像头</span>
+            </el-menu-item>
+          </router-link>
         </el-menu>
     </div>
     <RouterView />
@@ -24,6 +30,7 @@
   import {
     Document,
     Menu as IconMenu,
+    VideoCameraFilled,
     Location,
     Setting,
   } from '@element-plus/icons-vue'
