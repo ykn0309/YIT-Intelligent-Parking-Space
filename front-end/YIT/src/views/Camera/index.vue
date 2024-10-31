@@ -31,7 +31,7 @@
             </el-descriptions-item>
             <el-descriptions-item label="用户ID">易佳</el-descriptions-item>
             <el-descriptions-item label="车牌号">
-            <el-tag size="small">鄂A12345</el-tag>
+            <el-tag size="small">{{ inCarid }}</el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="车位ID">1</el-descriptions-item>
             <el-descriptions-item label="开始时间">
@@ -70,7 +70,7 @@
             </el-descriptions-item>
             <el-descriptions-item label="用户ID">易佳</el-descriptions-item>
             <el-descriptions-item label="车牌号">
-            <el-tag size="small">鄂A12345</el-tag>
+            <el-tag size="small">{{ outCarid }}</el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="开始时间">2024-10-30 21:51:34</el-descriptions-item>
             <el-descriptions-item label="结束时间">2024-10-30 23:53:02</el-descriptions-item>
@@ -89,6 +89,8 @@
     const imgURL_out = ref('')
     const inMsg = ref('')
     const outMsg = ref('')
+    const inCarid = ref('')
+    const outCarid = ref('')
 
     const handleSuccess_in: UploadProps['onSuccess'] = (
         response,
@@ -96,6 +98,7 @@
         ) => {
         imgURL_in.value = URL.createObjectURL(uploadFile.raw!)
         inMsg.value = response
+        inCarid.value = response.carid
     }
 
     const handleSuccess_out: UploadProps['onSuccess'] = (
@@ -104,6 +107,7 @@
         ) => {
         imgURL_out.value = URL.createObjectURL(uploadFile.raw!)
         outMsg.value = response
+        outCarid.value = response.carid
     }
 
 </script>
