@@ -82,6 +82,9 @@
     height: 100vh;
     background-color: white;
   }
+  .empty {
+  background-color: lightgray;
+}
   .occupied {
     background-color: red;
     width: 100%;
