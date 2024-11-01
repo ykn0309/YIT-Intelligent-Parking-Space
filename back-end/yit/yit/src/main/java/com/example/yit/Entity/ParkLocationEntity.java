@@ -18,14 +18,16 @@ public class ParkLocationEntity {
 
     private Integer zone;
     
-    private Integer occupied; // 0-not occupied, 1-occupied
-    /*if this pos is occupied, only the upper-left flag bit is not 0*/
-    private Integer size; // 1-small car(2*3)
+    private Integer occupied; // 0-not occupied, 1-occupied, 2-entrance and exit
 
+
+    //////////////////////////////////////////
     private Boolean isRoad;
+    private Integer size; // 1-small car(2*3)
     private Boolean isObstacle;
     private Boolean isEntrance;
     private Boolean isExit;
+    //////////////////////////////////////////
 
     public Integer getParkId() {
         return parkId;
@@ -58,6 +60,8 @@ public class ParkLocationEntity {
     public void setOccupied(Integer occupied) {
         this.occupied = occupied;
     }
+
+    ////////////////////////////////////
     public Integer getSize() {
         return size;
     }
@@ -89,4 +93,5 @@ public class ParkLocationEntity {
     public void setIsExit(Boolean isExit) {
         this.isExit = isExit;
     }
+    /////////////////////////////////////////
 }
