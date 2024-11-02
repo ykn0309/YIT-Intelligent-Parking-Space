@@ -4,12 +4,12 @@
         <span class="label">入口</span>
         <el-upload 
             class="uploader"
-            action="http://127.0.0.1:5000/upload" 
+            action="http://127.0.0.1:5000/api/entrance" 
             :show-file-list="false"
             :on-success="handleSuccess_in"
             :auto-upload="true"
             >
-            <img v-if="imgURL_in" :src="imgURL_in" class="img" />
+            <img v-if="inImgURL" :src="inImgURL" class="img" />
             <el-icon v-else class="uploader-icon"><Plus /></el-icon>
         </el-upload>
         <el-descriptions
@@ -26,29 +26,27 @@
             >
             <el-image
                 style="width: 100px; height: 100px"
-                :src="imgURL_in"
+                :src="inImgURL"
             />
             </el-descriptions-item>
-            <el-descriptions-item label="用户ID">易佳</el-descriptions-item>
+            <el-descriptions-item label="用户ID">{{ inUserId }}</el-descriptions-item>
             <el-descriptions-item label="车牌号">
             <el-tag size="small">{{ inCarid }}</el-tag>
             </el-descriptions-item>
-            <el-descriptions-item label="车位ID">1</el-descriptions-item>
-            <el-descriptions-item label="开始时间">
-            2024-10-30 21:51:34
-            </el-descriptions-item>
+            <el-descriptions-item label="车位ID">{{ inParkId }}</el-descriptions-item>
+            <el-descriptions-item label="开始时间">{{ inStartTime }}</el-descriptions-item>
         </el-descriptions>
     </div>
     <div class="box">
         <span class="label">出口</span>
         <el-upload 
             class="uploader"
-            action="http://127.0.0.1:5000/upload" 
+            action="http://127.0.0.1:5000/api/exit" 
             :show-file-list="false"
             :on-success="handleSuccess_out"
             :auto-upload="true"
             >
-            <img v-if="imgURL_out" :src="imgURL_out" class="img" />
+            <img v-if="outImgURL" :src="outImgURL" class="img" />
             <el-icon v-else class="uploader-icon"><Plus /></el-icon>
         </el-upload>
         <el-descriptions
@@ -65,7 +63,7 @@
             >
             <el-image
                 style="width: 100px; height: 100px"
-                :src="imgURL_out"
+                :src="outImgURL"
             />
             </el-descriptions-item>
             <el-descriptions-item label="用户ID">易佳</el-descriptions-item>
@@ -73,7 +71,7 @@
             <el-tag size="small">{{ outCarid }}</el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="开始时间">2024-10-30 21:51:34</el-descriptions-item>
-            <el-descriptions-item label="结束时间">2024-10-30 23:53:02</el-descriptions-item>
+            <el-descriptions-item label="结束时间">{{ outEndTime }}</el-descriptions-item>
             <el-descriptions-item label="停车时间">2小时2分钟</el-descriptions-item>
             <el-descriptions-item label="应付金额">20元</el-descriptions-item>
         </el-descriptions>
@@ -85,29 +83,39 @@
     import type { UploadProps } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
 
-    const imgURL_in = ref('')
-    const imgURL_out = ref('')
+    const inImgURL = ref('')
+    const outImgURL = ref('')
     const inMsg = ref('')
     const outMsg = ref('')
     const inCarid = ref('')
     const outCarid = ref('')
+    const inStartTime = ref('')
+    const outEndTime = ref('')
+    const inUserId = ref('')
+    const outUserId = ref('')
+    const inParkId = ref('')
+
 
     const handleSuccess_in: UploadProps['onSuccess'] = (
         response,
         uploadFile
         ) => {
-        imgURL_in.value = URL.createObjectURL(uploadFile.raw!)
+        inImgURL.value = URL.createObjectURL(uploadFile.raw!)
         inMsg.value = response
         inCarid.value = response.carid
+        inStartTime.value = response.startTime
+        inUserId.value = response.userid
+        inParkId.value = response.parkid
     }
 
     const handleSuccess_out: UploadProps['onSuccess'] = (
         response,
         uploadFile
         ) => {
-        imgURL_out.value = URL.createObjectURL(uploadFile.raw!)
+        outImgURL.value = URL.createObjectURL(uploadFile.raw!)
         outMsg.value = response
         outCarid.value = response.carid
+        outEndTime.value = response.endTime
     }
 
 </script>
