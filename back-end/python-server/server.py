@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 from datetime import datetime
 from detect_plate import run
-from database import find_user
+from database import find_user, find_occupied
 
 app = Flask(__name__)
 CORS(app)
@@ -34,15 +34,14 @@ def park_entrance():
 
     user_info = find_user(carid)
     if user_info != 0:
-        userid = user_info['userid']
-        parkid = user_info['parkid']
+        userid = user_info['user_id']
     else:
         print('no this user')
 
 
     startTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    return jsonify({'message': '文件上传成功', 'filename': file.filename, 'userid' : userid, 'parkid' : parkid, 'carid': carid, 'startTime' : startTime}), 200
+    return jsonify({'message': '文件上传成功', 'userid' : userid, 'carid': carid, 'startTime' : startTime}), 200
 
 @app.route('/api/exit', methods=['POST'])
 def park_exit():
@@ -64,9 +63,23 @@ def park_exit():
     carid = run(file_path)
     print(carid)
 
+    user_info = find_occupied(carid)
+    if user_info != 0:
+        userid = user_info['user_id']
+        startTime = user_info['start_time']
+        parkId = user_info['park_id']
+    else:
+        print('no this user')
+
     endTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    return jsonify({'message': '文件上传成功', 'filename': file.filename, 'carid': carid, 'endTime' : endTime}), 200
+    start_time = datetime.strptime(startTime, "%Y-%m-%d %H:%M:%S")
+    end_time = datetime.strptime(endTime, "%Y-%m-%d %H:%M:%S")
+    parking_time = end_time - start_time
+    minutes = int(parking_time.total_seconds() / 60)
+    cost = minutes * 0.1
+
+    return jsonify({'message': '文件上传成功', 'userid': userid, 'carid': carid, 'parkId' : parkId, 'startTime' : startTime ,'endTime' : endTime, 'parkingTime' : minutes, 'cost' : cost}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

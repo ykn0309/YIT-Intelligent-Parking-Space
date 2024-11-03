@@ -7,6 +7,6 @@ import com.example.yit.Entity.ParkRecordEntity;
 
 
 public interface ParkRecordRepository extends CrudRepository<ParkRecordEntity, Integer>{
-    Optional<ParkRecordEntity> findByParkId(String parkId);
+    // Optional<ParkRecordEntity> findByParkId(String parkId);
     
 }

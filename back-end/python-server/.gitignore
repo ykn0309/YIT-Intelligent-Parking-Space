@@ -36,3 +36,5 @@ ccpd/
 !requirements.txt
 !LICENSE
 !fonts/*
+
+uploads/*

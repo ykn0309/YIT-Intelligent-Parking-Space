@@ -11,4 +11,9 @@ create table yit_user (
 INSERT INTO yit_user (userid, username, carid, parkid) VALUES
 (1, '易佳', '京EA5331', 'P01');
 
+insert into users (user_id, car_id, is_admin, wallet) values
+(1, '京EA5331', 1, 10000.0);
+insert into users (user_id, car_id, is_admin, wallet) values
+(2, '沪AN9241', 1, 10000.0);
+
 ```

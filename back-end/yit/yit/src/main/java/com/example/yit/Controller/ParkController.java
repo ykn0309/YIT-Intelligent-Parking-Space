@@ -50,8 +50,8 @@ public class ParkController {
     public @ResponseBody RespBean deleteCar(int parkId, String endTime)
     {
         System.out.println("减少汽车：");
-        parkService.deleteCar(parkId);
         parkService.addRecord(parkId, endTime);
+        parkService.deleteCar(parkId);
         return new RespBean("success","",null);
     }
 

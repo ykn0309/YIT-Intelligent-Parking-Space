@@ -23,11 +23,12 @@ export async function addCar(formData) {
 }
 
 //deleteCar
-export async function deleteCar(parkId) {
+export async function deleteCar(parkId, endTime) {
     try {
         const response = await axios.get(`${BASE_URL}/api/deleteCar`, {
             params: {
-                parkId: parkId 
+                parkId: parkId,
+                endTime: endTime
             }
         });
         return response.data;
