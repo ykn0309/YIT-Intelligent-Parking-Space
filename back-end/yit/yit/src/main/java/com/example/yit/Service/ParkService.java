@@ -102,13 +102,13 @@ public class ParkService {
     }
 
     //记录停车信息
-    public Integer addRecord(String carId, String endTime)
+    public Integer addRecord(Integer parkId, String endTime)
     {
-        OccupiedParkEntity temp=occupiedParkRepository.findByCarId(carId).get();
+        OccupiedParkEntity temp=occupiedParkRepository.findById(parkId).get();
         ParkRecordEntity parkRecordEntity=new ParkRecordEntity();
-        parkRecordEntity.setCarId(carId);
+        parkRecordEntity.setCarId(temp.getCarId());
         parkRecordEntity.setStartTime(temp.getStartTime());
-        parkRecordEntity.setParkId(temp.getParkId());
+        parkRecordEntity.setParkId(parkId);
         parkRecordEntity.setUserId(temp.getUserId());
         parkRecordEntity.setEndTime(endTime);
         parkRecordRepository.save(parkRecordEntity);

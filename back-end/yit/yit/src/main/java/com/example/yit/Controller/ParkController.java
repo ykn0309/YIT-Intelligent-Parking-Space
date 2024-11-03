@@ -47,10 +47,11 @@ public class ParkController {
     }
 
     @RequestMapping(value = "deleteCar", method = RequestMethod.GET)
-    public @ResponseBody RespBean deleteCar(int parkId)
+    public @ResponseBody RespBean deleteCar(int parkId, String endTime)
     {
         System.out.println("减少汽车：");
         parkService.deleteCar(parkId);
+        parkService.addRecord(parkId, endTime);
         return new RespBean("success","",null);
     }
 
