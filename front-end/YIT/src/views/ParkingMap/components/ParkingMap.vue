@@ -1,12 +1,15 @@
 <template>
-    <div class="parking-lot">
-      <div
-        v-for="(cell, index) in grid"
-        :key="index"
-        :class="cellClass(cell)"
-      ></div>
-    </div>
-  </template>
+  <div class="parking-lot">
+    <div
+      v-for="(cell, index) in grid"
+      :key="index"
+      :class="cellClass(cell)"
+    ></div>
+  </div>
+</template>
+
+
+
   
   <script>
   export default {
@@ -26,49 +29,40 @@
     },
     computed: {
       grid() {
-        const grid = Array(this.rows * this.cols).fill("empty");
-        this.parkingSlots.forEach(({ slotNumber, occupied }) => {
-          const x = (slotNumber - 1) % this.cols;
-          const y = Math.floor((slotNumber - 1) / this.cols);
-  
-          //设置车位
-          for (let i = 0; i < this.slotSize.height; i++) {
-            for (let j = 0; j < this.slotSize.width; j++) {
-              const index = (y + i) * this.cols + (x + j);
-              if (index < grid.length) {
-                grid[index] = occupied ? "occupied" : "available";
-              }
+      const grid = Array(this.rows * this.cols).fill("empty");
+
+      this.parkingSlots.forEach(({ slotNumber, occupied }) => {
+        const x = (slotNumber - 1) % this.cols;
+        const y = Math.floor((slotNumber - 1) / this.cols);
+
+        for (let i = 0; i < this.slotSize.height; i++) {
+          for (let j = 0; j < this.slotSize.width; j++) {
+            const index = (y + i) * this.cols + (x + j);
+            if (index < grid.length) {
+              // 设置边框类
+              let borderClass = "";
+              if (i === 0) borderClass += " border-top";
+              if (i === this.slotSize.height - 1) borderClass += " border-bottom";
+              if (j === 0) borderClass += " border-left";
+              if (j === this.slotSize.width - 1) borderClass += " border-right";
+
+              // 添加状态和边框类
+              grid[index] = occupied
+                ? `occupied ${borderClass}`
+                : `available ${borderClass}`;
             }
           }
-        });
-  
-        // 设置过道
-        // for (let r = 0; r < this.rows; r += this.slotSize.height + this.aisleWidth) {
-        //   for (let i = 0; i < this.aisleWidth; i++) {
-        //     for (let c = 0; c < this.cols; c++) {
-        //       const index = (r + i) * this.cols + c;
-        //       if (index < grid.length) grid[index] = "aisle";
-        //     }
-        //   }
-        // }
-  
-        return grid;
-      },
+        }
+      });
+
+      return grid;
+    },
     },
     methods: {
       cellClass(cell) {
-        switch (cell) {
-          case "occupied":
-            return "occupied";
-          case "available":
-            return "available";
-          case "aisle":
-            return "aisle";
-          default:
-            return "empty";
-        }
-      },
+      return cell;
     },
+  },
   };
   </script>
   
@@ -89,18 +83,27 @@
     background-color: red;
     width: 100%;
     height: 100%;
-    border: 1px solid black; /* 加上黑色边框 */
+    
   }
   .available {
     background-color: green;
     width: 100%;
     height: 100%;
-    border: 1px solid black; /* 加上黑色边框 */
+    
   }
-  .aisle {
-    background-color: white;
-    width: 100%;
-    height: 100%;
-  }
+
+ /* 车位边缘黑色边框 */
+.border-top {
+  border-top: 2px solid black;
+}
+.border-right {
+  border-right: 2px solid black;
+}
+.border-bottom {
+  border-bottom: 2px solid black;
+}
+.border-left {
+  border-left: 2px solid black;
+}
   </style>
   
