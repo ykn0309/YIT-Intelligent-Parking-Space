@@ -18,16 +18,8 @@ public class ParkLocationEntity {
 
     private Integer zone;
     
-    private Integer occupied; // 0-not occupied, 1-occupied, 2-entrance and exit
+    private Integer occupied; 
 
-
-    //////////////////////////////////////////
-    private Boolean isRoad;
-    private Integer size; // 1-small car(2*3)
-    private Boolean isObstacle;
-    private Boolean isEntrance;
-    private Boolean isExit;
-    //////////////////////////////////////////
 
     public Integer getParkId() {
         return parkId;
@@ -61,37 +53,5 @@ public class ParkLocationEntity {
         this.occupied = occupied;
     }
 
-    ////////////////////////////////////
-    public Integer getSize() {
-        return size;
-    }
-    public void setSize(Integer size) {
-        this.size = size;
-    }
 
-    public Boolean getIsRoad() {
-        return isRoad;
-    }
-    public void setIsRoad(Boolean isRoad) {
-        this.isRoad = isRoad;
-    }
-    public Boolean getIsObstacle() {
-        return isObstacle;
-    }
-    public void setIsObstacle(Boolean isObstacle) {
-        this.isObstacle = isObstacle;
-    }
-    public Boolean getIsEntrance() {
-        return isEntrance;
-    }
-    public void setIsEntrance(Boolean isEntrance) {
-        this.isEntrance = isEntrance;
-    }
-    public Boolean getIsExit() {
-        return isExit;
-    }
-    public void setIsExit(Boolean isExit) {
-        this.isExit = isExit;
-    }
-    /////////////////////////////////////////
 }

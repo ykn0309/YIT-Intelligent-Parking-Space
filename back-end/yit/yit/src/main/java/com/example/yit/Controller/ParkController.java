@@ -55,4 +55,14 @@ public class ParkController {
         return new RespBean("success","",null);
     }
 
+    @RequestMapping(value = "getRoad", method = RequestMethod.GET)
+    public @ResponseBody RespBean getRoad(int xlabel, int ylabel)
+    {
+        System.out.println("获取路径：");
+        int[][] map=parkService.mapInitial();
+        Road road=parkService.getRoad(map, xlabel, ylabel);
+        return new RespBean("success","",road);
+    }
+
+
 }

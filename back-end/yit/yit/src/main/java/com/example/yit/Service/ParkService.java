@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.yit.Entity.*;
 import com.example.yit.Bean.*;
 import com.example.yit.Repository.*;
+import com.example.yit.Util.*;
 @Service
 @Transactional
 public class ParkService {
@@ -132,5 +133,150 @@ public class ParkService {
         );
         return result;
     }
+
+    public int[][] mapInitial()
+    {
+        //全赋值1
+        int[][] map = new int[29][30]; 
+        for(int i=0; i<29;i++)
+        {
+            for(int j=0; j<30;j++)
+            {
+                map[i][j]=1;
+            }
+        }
+
+        
+        //赋值空闲车位
+        //2
+        for(int i=2; i<5;i++)
+        {
+            for(int j=2; j<14;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+        for(int i=2; i<5;i++)
+        {
+            for(int j=16; j<28;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+
+        //6
+        for(int i=6; i<9;i++)
+        {
+            for(int j=2; j<14;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+        for(int i=6; i<9;i++)
+        {
+            for(int j=16; j<28;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+        
+        //11
+        for(int i=11; i<14;i++)
+        {
+            for(int j=2; j<14;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+        for(int i=11; i<14;i++)
+        {
+            for(int j=16; j<28;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+
+        //15
+        for(int i=15; i<18;i++)
+        {
+            for(int j=2; j<14;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+        for(int i=15; i<18;i++)
+        {
+            for(int j=16; j<28;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+
+        //20
+        for(int i=20; i<23;i++)
+        {
+            for(int j=2; j<14;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+        for(int i=20; i<23;i++)
+        {
+            for(int j=16; j<28;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+
+        //20
+        for(int i=24; i<27;i++)
+        {
+            for(int j=2; j<14;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+        for(int i=24; i<27;i++)
+        {
+            for(int j=16; j<28;j++)
+            {
+                map[i][j]=2;
+            }
+        }
+
+        map[0][0]=49;
+
+        Iterable<ParkLocationEntity> iterables=parkLocationRepository.findAll();
+        for(ParkLocationEntity PLentity : iterables)
+        {
+           if((PLentity.getOccupied()==1))
+           {
+            Integer x=PLentity.getXlabel();
+            Integer y=PLentity.getYlabel();
+            map[x][y]+=4;
+           }
+
+        }
+        return map;
+
+    }
+
+    public Road getRoad(int[][]map , int x, int y)
+    {
+        PathFindingUtil pathFindingUtil = new PathFindingUtil();
+        pathFindingUtil.findInPath(map, 0, 3);
+        List<Integer> res=new ArrayList<>();
+        int len=map[0].length;
+        for (PathFindingUtil.Coordinate coordinate : pathFindingUtil.path) {
+            res.add(coordinate.x*len+coordinate.y+1);
+        }
+        int destination_x, destination_y;
+        destination_x=pathFindingUtil.destination.x;
+        destination_y=pathFindingUtil.destination.y;
+        ParkLocationEntity temp=parkLocationRepository.findByXAndY(destination_x, destination_y).get();
+        Road road=new Road(temp.getParkId(), res);
+        return road;
+    }
+
 
 }
