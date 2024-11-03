@@ -77,7 +77,7 @@
     display: grid;
     grid-template-columns: repeat(50, 2vw); /* 使用 2vw 适应屏幕 */
     grid-template-rows: repeat(50, 2vw); /* 使用 2vw 适应屏幕 */
-    gap: 1px; /* 网格间距 */
+    
     width: 100vw;
     height: 100vh;
     background-color: white;
@@ -89,11 +89,13 @@
     background-color: red;
     width: 100%;
     height: 100%;
+    border: 1px solid black; /* 加上黑色边框 */
   }
   .available {
     background-color: green;
     width: 100%;
     height: 100%;
+    border: 1px solid black; /* 加上黑色边框 */
   }
   .aisle {
     background-color: white;
