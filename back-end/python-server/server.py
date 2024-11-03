@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 from datetime import datetime
 from detect_plate import run
-from database import find_user, find_occupied
+from database import *
 
 app = Flask(__name__)
 CORS(app)
@@ -38,10 +38,16 @@ def park_entrance():
     else:
         print('no this user')
 
+    parkid_path = get_parkid_path()
+    if parkid_path == False:
+        return jsonify({'message' : 'get_parkid_path failed'}), 200
+    else:
+        parkId = parkid_path['parkId']
+        save_parkid_path_to_database(parkid_path)
 
     startTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    return jsonify({'message': '文件上传成功', 'userid' : userid, 'carid': carid, 'startTime' : startTime}), 200
+    return jsonify({'message': '文件上传成功', 'userid' : userid, 'carid': carid, 'startTime' : startTime, 'parkId' : parkId}), 200
 
 @app.route('/api/exit', methods=['POST'])
 def park_exit():

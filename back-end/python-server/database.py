@@ -1,4 +1,7 @@
 import pymysql
+import requests
+import time
+import json
 
 # 配置数据库连接   
 def get_db_connection():
@@ -38,3 +41,31 @@ def find_occupied(carid):
                 return 0
     finally:
         connection.close()
+
+def get_parkid_path():
+    url = "http://localhost:8080/api/getRoad"
+    params = {'xlabel' : 0, 'ylabel' : 0}
+
+    response  = requests.get(url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        return data
+    else:
+        print(f'请求失败，状态码：{response.status_code}')
+        return False
+
+def save_parkid_path_to_database(data):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            id = generate_timestamp_id()
+            json_str = json.dumps(data)
+            blob_data = json_str.encode('utf-8')
+            sql = """ insert into dynamic_map values (%s, %s)"""
+            cursor.execute(sql, (id, blob_data))
+            connection.commit()
+    finally:
+        connection.close()
+
+def generate_timestamp_id():
+    return str(int(time.time() * 1000))  # 毫秒级时间戳
