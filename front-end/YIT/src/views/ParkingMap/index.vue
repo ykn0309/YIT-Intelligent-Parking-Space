@@ -1,11 +1,30 @@
 <template>
     <div class="map">
-      <ParkingMap :parkingSlots="parkingSlots" />
+      <ParkingMap :parkingSlots="tableData" />
     </div>
   </template>
   
   <script>
   import ParkingMap from "./components/ParkingMap.vue";
+
+  import { onMounted, ref } from 'vue';
+  import { getAllMap } from '@/utils/api';
+
+  const tableData = ref([])
+
+  const fetchAllMap = async () => {
+        console.log('fetchAllMap')
+        try {
+            const response = await getAllMap()
+            tableData.value = response
+        } catch (error) {
+            console.log('fetchAllMap() failed')
+        }
+    }
+
+    onMounted(() => {
+        fetchAllMap()
+    })
   
   export default {
     components: {

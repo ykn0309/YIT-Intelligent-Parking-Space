@@ -46,3 +46,23 @@ export async function getMap() {
         throw new Error('getMap() failed.');
     }
 }
+
+//getAllMap
+export async function getAllMap() {
+    try {
+        const response = await axios.get( `${BASE_URL}/api/getAllMap`);
+        return response.data.data;
+    } catch (error) {
+        throw new Error('getAllMap() failed.');
+    }
+}
+
+//getRoad
+export async function getRoad() {
+    try {
+        const response = await axios.get( `${BASE_URL}/api/getRoad`,{params:{'x':0, 'y':0}});
+        return response.data.data;
+    } catch (error) {
+        throw new Error('getRoad() failed.');
+    }
+}
