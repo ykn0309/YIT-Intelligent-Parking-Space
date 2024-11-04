@@ -9,6 +9,7 @@ import center from '@/views/Center/index.vue'
 import carsManager from '@/views/CarsManager/index.vue'
 import parkingMap from '@/views/ParkingMap/index.vue'
 import camera from '@/views/Camera/index.vue'
+import usermap from '@/views/UserParkingMap/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,8 +60,12 @@ const router = createRouter({
           children: [
             {
               path: '/mb/center',
-              component: center
-            }
+              component: center,
+            },
+            {
+              path: '/mb/usermap',
+              component: usermap,
+            },
           ]
         }
       ],
