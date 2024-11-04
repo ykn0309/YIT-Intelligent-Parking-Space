@@ -4,7 +4,7 @@
     <div class="tabs">
       <router-link to="/parking-management" class="tab-item">车位管理</router-link>
       <router-link to="/user-status" class="tab-item">用户状态</router-link>
-      <router-link to="/personal-center" class="tab-item">个人中心</router-link>
+      <router-link to="/mb/usercenter" class="tab-item">个人中心</router-link>
     </div>
     <div class="content">
       <!-- <router-view></router-view> -->

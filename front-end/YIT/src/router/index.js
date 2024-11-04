@@ -10,6 +10,9 @@ import carsManager from '@/views/CarsManager/index.vue'
 import parkingMap from '@/views/ParkingMap/index.vue'
 import camera from '@/views/Camera/index.vue'
 import usermap from '@/views/UserParkingMap/index.vue'
+import usercenter from '@/views/UserCenter/index.vue'
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,6 +68,10 @@ const router = createRouter({
             {
               path: '/mb/usermap',
               component: usermap,
+            },
+            {
+              path: '/mb/usercenter',
+              component: usercenter,
             },
           ]
         }
