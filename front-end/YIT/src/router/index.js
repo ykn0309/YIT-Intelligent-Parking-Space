@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import login from '@/views/Login/index.vue'
 import userlogin from '@/views/UserLogin/index.vue'
 import header from '@/views/Header/index.vue'
-import mb from '@/views/Mobile/index.vue'
+import mobile from '@/views/Mobile/index.vue'
 import nav from '@/views/Nav/index.vue'
 import usernav from '@/views/UserNav/index.vue'
 import center from '@/views/Center/index.vue'
@@ -53,28 +53,28 @@ const router = createRouter({
       component: userlogin,
     },
     {
-      path: '/mb',
-      name: 'mb',
-      component: mb,
+      path: '/mobile',
+      name: 'mobile',
+      component: mobile,
       children: [
         {
-          path: '/mb/usernav',
+          path: '',
           component: usernav,
-          children: [
+          children:[
             {
-              path: '/mb/center',
+              path: '/mobile/center',
               component: center,
             },
             {
-              path: '/mb/usermap',
+              path: '/mobile/usermap',
               component: usermap,
             },
             {
-              path: '/mb/usercenter',
+              path: '/mobile/usercenter',
               component: usercenter,
             },
           ]
-        }
+        },
       ],
     },
   ]
