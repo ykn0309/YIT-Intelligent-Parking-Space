@@ -161,15 +161,19 @@ public class ParkService {
     public Road getRoad(int[][]map , int x, int y)
     {
         PathFindingUtil pathFindingUtil = new PathFindingUtil();
-        pathFindingUtil.findInPath(map, 0, 3);
+        pathFindingUtil.findInPath(map, x, y);
         List<Integer> res=new ArrayList<>();
         int len=map[0].length;
+        System.out.print("path: ");
         for (PathFindingUtil.Coordinate coordinate : pathFindingUtil.path) {
+            System.out.print("(" + coordinate.x + ", " + coordinate.y + ") ");
             res.add(coordinate.x*len+coordinate.y+1);
         }
+        System.out.println();
         int destination_x, destination_y;
         destination_x=pathFindingUtil.destination.x;
         destination_y=pathFindingUtil.destination.y;
+        System.out.println("destination x: " + destination_x + ", y: " + destination_y);
         ParkLocationEntity temp=parkLocationRepository.findByXAndY(destination_x, destination_y).get();
         Road road=new Road(temp.getParkId(), res);
         return road;

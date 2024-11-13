@@ -154,6 +154,7 @@ public class PathFindingUtil {
             System.out.println("未选择有效目标，路径搜索失败");
             return;
         }
+        destination = target;
 
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(node -> node.g + node.h));
         Set<Coordinate> closedSet = new HashSet<>();

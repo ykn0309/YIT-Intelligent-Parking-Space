@@ -23,28 +23,29 @@ public class TestUtil {
 
     public static void main(String[] args) {
         ParkService parkService = new ParkService();
-        int[][] MAP = parkService.mapInitial();
+        int[][] map = parkService.mapInitial();
         
-        PathFindingUtil pathFindingUtil = new PathFindingUtil();
+        parkService.getRoad(map, 0, 0);
+        // PathFindingUtil pathFindingUtil = new PathFindingUtil();
     
-        // 查找离(0, 3)最近的车位
-        pathFindingUtil.findInPath(MAP, 0, 3);
-        System.out.print("车位路径: ");
-        printPath(pathFindingUtil.path);
+        // // 查找离(0, 3)最近的车位
+        // pathFindingUtil.findInPath(MAP, 0, 3);
+        // System.out.print("车位路径: ");
+        // printPath(pathFindingUtil.path);
         
-        // 查找离(9, 9)最近的车位
-        pathFindingUtil.findInPath(MAP, 9, 9);
-        System.out.print("车位路径: ");
-        printPath(pathFindingUtil.path);
+        // // 查找离(9, 9)最近的车位
+        // pathFindingUtil.findInPath(MAP, 9, 9);
+        // System.out.print("车位路径: ");
+        // printPath(pathFindingUtil.path);
     
-        // 查找离(29, 29)最近的出口
-        pathFindingUtil.findOutPath(MAP, 29, 29);
-        System.out.print("出口路径: ");
-        printPath(pathFindingUtil.path);
+        // // 查找离(29, 29)最近的出口
+        // pathFindingUtil.findOutPath(MAP, 29, 29);
+        // System.out.print("出口路径: ");
+        // printPath(pathFindingUtil.path);
 
-        // 输出车位和出口
-        pathFindingUtil.printParkingSpots();
-        pathFindingUtil.printExits();
+        // // 输出车位和出口
+        // pathFindingUtil.printParkingSpots();
+        // pathFindingUtil.printExits();
     }
     
     // 辅助方法，用于打印路径
