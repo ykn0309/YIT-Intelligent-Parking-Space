@@ -37,17 +37,18 @@ def park_entrance():
         userid = user_info['user_id']
     else:
         print('no this user')
+        return jsonify({'message' : 'no this user'}), 200
 
     parkid_path = get_parkid_path()
     if parkid_path == False:
         return jsonify({'message' : 'get_parkid_path failed'}), 200
     else:
         parkId = parkid_path['parkId']
-        save_parkid_path_to_database(parkid_path)
+        pageid = save_parkid_path_to_database(parkid_path)
 
     startTime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    return jsonify({'message': '文件上传成功', 'userid' : userid, 'carid': carid, 'startTime' : startTime, 'parkId' : parkId}), 200
+    return jsonify({'message': 'success', 'userid' : userid, 'carid': carid, 'startTime' : startTime, 'parkId' : parkId, 'pageId' : pageid}), 200
 
 @app.route('/api/exit', methods=['POST'])
 def park_exit():

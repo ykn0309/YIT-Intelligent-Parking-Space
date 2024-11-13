@@ -65,6 +65,7 @@ def save_parkid_path_to_database(data):
             print(id, blob_data)
             cursor.execute(sql, (id, blob_data))
             connection.commit()
+            return id
     finally:
         connection.close()
 
