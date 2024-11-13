@@ -22,7 +22,7 @@
     .usernav {
         float: left;
         width: 180px;
-        height: calc(100vh - 51px);
+        height: calc(100vh - 51px)-200;
         border-right: 1px solid #dcdfe6;
     }
 
