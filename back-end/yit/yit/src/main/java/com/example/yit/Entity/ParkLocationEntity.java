@@ -11,13 +11,15 @@ import jakarta.persistence.Table;
 @Table(name = "parklocations")
 public class ParkLocationEntity {
     @Id
+    @Column(name = "parkId")
     private Integer parkId;
-
+    @Column(name = "xlabel")
     private Integer xlabel;
+    @Column(name = "ylabel")
     private Integer ylabel;
-
+    @Column(name = "zone")
     private Integer zone;
-    
+    @Column(name = "occupied")
     private Integer occupied; 
 
 

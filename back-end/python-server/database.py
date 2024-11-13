@@ -48,7 +48,7 @@ def get_parkid_path():
 
     response  = requests.get(url, params=params)
     if response.status_code == 200:
-        data = response.json()
+        data = response.json()['data']
         return data
     else:
         print(f'请求失败，状态码：{response.status_code}')
@@ -62,6 +62,7 @@ def save_parkid_path_to_database(data):
             json_str = json.dumps(data)
             blob_data = json_str.encode('utf-8')
             sql = """ insert into dynamic_map values (%s, %s)"""
+            print(id, blob_data)
             cursor.execute(sql, (id, blob_data))
             connection.commit()
     finally:
