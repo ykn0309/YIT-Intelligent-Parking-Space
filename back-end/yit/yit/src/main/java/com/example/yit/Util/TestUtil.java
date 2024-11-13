@@ -2,6 +2,8 @@ package com.example.yit.Util;
 
 import java.util.*;
 
+import com.example.yit.Service.*;
+
 public class TestUtil {
 
     // 10x10的地图数组
@@ -20,6 +22,9 @@ public class TestUtil {
     };
 
     public static void main(String[] args) {
+        ParkService parkService = new ParkService();
+        int[][] MAP = parkService.mapInitial();
+        
         PathFindingUtil pathFindingUtil = new PathFindingUtil();
     
         // 查找离(0, 3)最近的车位
@@ -32,8 +37,8 @@ public class TestUtil {
         System.out.print("车位路径: ");
         printPath(pathFindingUtil.path);
     
-        // 查找离(5, 5)最近的出口
-        pathFindingUtil.findOutPath(MAP, 5, 5);
+        // 查找离(29, 29)最近的出口
+        pathFindingUtil.findOutPath(MAP, 29, 29);
         System.out.print("出口路径: ");
         printPath(pathFindingUtil.path);
 
