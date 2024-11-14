@@ -72,7 +72,7 @@ public class ParkService {
     public Integer addCar(Park park)
     {
         OccupiedParkEntity OPentity=new OccupiedParkEntity();
-        ParkLocationEntity PLentity=new ParkLocationEntity();
+        //ParkLocationEntity PLentity=new ParkLocationEntity();
 
         OPentity.setCarId(park.carId());
         OPentity.setParkId(park.parkId());
@@ -81,11 +81,12 @@ public class ParkService {
         OPentity.setStartTime(park.startTime());
         occupiedParkRepository.save(OPentity);
 
+        ParkLocationEntity PLentity=parkLocationRepository.findById(park.parkId()).get();
         PLentity.setOccupied(1);
-        PLentity.setParkId(park.parkId());
-        PLentity.setXlabel(0);
-        PLentity.setYlabel(0);
-        PLentity.setZone(0);
+        // PLentity.setParkId(park.parkId());
+        // PLentity.setXlabel(0);
+        // PLentity.setYlabel(0);
+        // PLentity.setZone(0);
         parkLocationRepository.save(PLentity);
 
         return park.parkId();
