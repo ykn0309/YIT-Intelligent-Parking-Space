@@ -128,7 +128,7 @@
         inCarid.value = response.carid
         inStartTime.value = response.startTime
         inUserId.value = response.userid
-        inParkId.value = response.parkid
+        inParkId.value = response.parkId
         inPageId.value = response.pageId
     }
 
