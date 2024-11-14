@@ -62,7 +62,6 @@ def save_parkid_path_to_database(data):
             json_str = json.dumps(data)
             blob_data = json_str.encode('utf-8')
             sql = """ insert into dynamic_map values (%s, %s)"""
-            print(id, blob_data)
             cursor.execute(sql, (id, blob_data))
             connection.commit()
             return id
@@ -71,3 +70,14 @@ def save_parkid_path_to_database(data):
 
 def generate_timestamp_id():
     return str(int(time.time() * 1000))  # 毫秒级时间戳
+
+def load_parkid_path_from_database(id):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = f"select data from dynamic_map where id = {id};"
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            return result
+    finally:
+        connection.close()

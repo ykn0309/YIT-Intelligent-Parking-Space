@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from datetime import datetime
+import json
 from detect_plate import run
 from database import *
 
@@ -86,7 +87,17 @@ def park_exit():
     minutes = int(parking_time.total_seconds() / 60)
     cost = minutes * 0.1
 
-    return jsonify({'message': '文件上传成功', 'userid': userid, 'carid': carid, 'parkId' : parkId, 'startTime' : startTime ,'endTime' : endTime, 'parkingTime' : minutes, 'cost' : cost}), 200
+    return jsonify({'message': 'success', 'userid': userid, 'carid': carid, 'parkId' : parkId, 'startTime' : startTime ,'endTime' : endTime, 'parkingTime' : minutes, 'cost' : cost}), 200
+
+@app.route('/api/getPath', methods=['GET'])
+def get_path():
+    pageid = request.args.get('pageid')
+    blob_data = load_parkid_path_from_database(pageid)
+    decoded_data = blob_data['data'].decode('utf-8')
+    decoded_data = json.loads(decoded_data)
+    parkId = decoded_data['parkId']
+    road = decoded_data['road']
+    return jsonify({'parkId' : parkId, 'road': road})
 
 if __name__ == '__main__':
     app.run(debug=True)

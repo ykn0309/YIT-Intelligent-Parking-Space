@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const BASE_URL = 'http://localhost:8080';
+const PYTHON_SERVER_URL = 'http://localhost:5000'
 
 //getAllCars
 export async function getAllCars() {
@@ -57,12 +58,13 @@ export async function getAllMap() {
     }
 }
 
-//getRoad
-export async function getRoad() {
+//getPath
+export async function getPath(pageid) {
     try {
-        const response = await axios.get( `${BASE_URL}/api/getRoad`,{params:{'x':0, 'y':0}});
-        return response.data.data;
+        const response = await axios.get( `${PYTHON_SERVER_URL}/api/getPath`,{params:{pageid: pageid}});
+        console.log(response.data)
+        return response.data;
     } catch (error) {
-        throw new Error('getRoad() failed.');
+        throw new Error('getPath() failed.');
     }
 }

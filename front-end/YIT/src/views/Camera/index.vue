@@ -40,6 +40,7 @@
                 <el-descriptions-item label="开始时间">{{ inStartTime }}</el-descriptions-item>
             </el-descriptions>
             <el-button type="primary" @click="addCar1" :disabled="inButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
+            <div>{{ 'http://localhost:5173/mobile/usermap/' + inPageId }}</div>
         </div>
     </div>
     <div class="box">

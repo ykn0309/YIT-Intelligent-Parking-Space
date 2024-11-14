@@ -66,7 +66,7 @@ const router = createRouter({
               component: center,
             },
             {
-              path: '/mobile/usermap',
+              path: '/mobile/usermap/:pageid',
               component: usermap,
             },
             {
