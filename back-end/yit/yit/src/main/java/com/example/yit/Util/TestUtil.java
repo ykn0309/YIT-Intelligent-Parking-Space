@@ -23,9 +23,11 @@ public class TestUtil {
 
     public static void main(String[] args) {
         ParkService parkService = new ParkService();
-        int[][] map = parkService.mapInitial();
+        parkService.mapInitial();
         
-        parkService.getRoad(map, 0, 0);
+        parkService.getRoad(0, 0);
+        parkService.getRoad(0, 0);
+        parkService.getRoad(0, 0);
         // PathFindingUtil pathFindingUtil = new PathFindingUtil();
     
         // // 查找离(0, 3)最近的车位

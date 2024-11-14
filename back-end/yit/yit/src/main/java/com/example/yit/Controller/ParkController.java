@@ -59,8 +59,8 @@ public class ParkController {
     public @ResponseBody RespBean getRoad(int xlabel, int ylabel)
     {
         System.out.println("获取路径：");
-        int[][] map=parkService.mapInitial();
-        Road road=parkService.getRoad(map, xlabel, ylabel);
+        parkService.mapInitial();
+        Road road=parkService.getRoad(xlabel, ylabel);
         return new RespBean("success","",road);
     }
 

@@ -24,6 +24,8 @@ public class ParkService {
     @Autowired
     ParkRecordRepository parkRecordRepository;
 
+    int[][] map = null; // 初始化
+    
     //获取所有车位信息
     public List<Park> getCarsMap()
     {
@@ -136,8 +138,10 @@ public class ParkService {
         return result;
     }
 
-    public int[][] mapInitial() {
-        int[][] map = null; // 初始化
+    public void mapInitial() {
+        if (map != null) {
+            return;
+        }
     
         try {
             map = MapInitialUtil.loadMapFromCSV("map/map_a.csv");
@@ -156,10 +160,10 @@ public class ParkService {
             map = new int[0][0]; // 出现异常时，返回一个空的二维数组
         }
     
-        return map;
+        return;
     }
 
-    public Road getRoad(int[][]map , int x, int y)
+    public Road getRoad(int x, int y)
     {
         PathFindingUtil pathFindingUtil = new PathFindingUtil();
         pathFindingUtil.findInPath(map, x, y);
@@ -174,6 +178,7 @@ public class ParkService {
         int destination_x, destination_y;
         destination_x=pathFindingUtil.destination.x;
         destination_y=pathFindingUtil.destination.y;
+        map[destination_x][destination_y] += 0b00000100;
         System.out.println("destination x: " + destination_x + ", y: " + destination_y);
         ParkLocationEntity temp=parkLocationRepository.findByXAndY(destination_x, destination_y).get();
         Road road=new Road(temp.getParkId(), res);
