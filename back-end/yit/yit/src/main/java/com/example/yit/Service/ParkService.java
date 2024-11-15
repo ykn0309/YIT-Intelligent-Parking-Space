@@ -90,7 +90,7 @@ public class ParkService {
         // PLentity.setYlabel(0);
         // PLentity.setZone(0);
         parkLocationRepository.save(PLentity);
-        map[temp.getXlabel()][temp.getYlabel()] += 0b00000100;
+        map[PLentity.getXlabel()][PLentity.getYlabel()] += 0b00000100;
         return park.parkId();
     }
 
@@ -186,5 +186,19 @@ public class ParkService {
         return road;
     }
 
+    public List<Integer> getOccupied()
+    {
+        List<Integer> result=new ArrayList<>();
+<<<<<<< HEAD
+        Iterable<ParkLocationEntity> iterables=parkLocationRepository.findAll();
+=======
+        Iterable<ParkLocationEntity> iterables=parkLocationRepository.findAllByIdOrderByIdAsc();
+>>>>>>> cf57281713a976ed359cfb531519df4268c9aa00
+        for(ParkLocationEntity PLentity : iterables)
+        {
+            result.add(PLentity.getOccupied());
+        }
+        return result;
+    }
 
 }
