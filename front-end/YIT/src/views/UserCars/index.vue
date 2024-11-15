@@ -1,21 +1,19 @@
 <template>
-   <div class="back-button-container">
+  <!-- 返回按钮的容器 -->
+  <div class="back-button-container">
     <router-link to="/mobile/usercenter" class="back-button">
       <span class="arrow">←</span> 返回上一页
     </router-link>
   </div>
-  <div class="my-vehicles-page">
+
+  <!-- 我的车辆页面的容器 -->
+  <div class="my-vehicle-page">
     <h2>🚗 我的车辆</h2>
-    <!-- 如果 vehicles 列表为空，则显示暂无车辆 -->
-    <p v-if="!loading && vehicles.length === 0" class="no-vehicle">暂无车辆</p>
-    <!-- 如果有车辆，则显示车牌号列表 -->
-    <ul v-if="!loading && vehicles.length > 0">
-      <li v-for="vehicle in vehicles" :key="vehicle.id">
-        <p><strong>车牌号：</strong>{{ vehicle.licensePlate }}</p>
-      </li>
-    </ul>
-    <!-- 加载状态 -->
-    <p v-if="loading" class="loading">加载中...</p>
+  </div>
+
+  <!-- 车牌号的显示，放在另一个 div 中 -->
+  <div class="vehicle-info">
+    <p><strong>车牌号：</strong>{{ licensePlate || '' }}</p>
   </div>
 </template>
 
@@ -23,25 +21,38 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-const vehicles = ref([]) // 初始化为空数组
-const loading = ref(true) // 添加加载状态
+// 定义响应数据
+const licensePlate = ref('') // 存储车牌号，默认空字符串
+
+// 获取用户ID
+//const userId = sessionStorage.getItem('userId')
+const userId = 1;
 
 // 获取车辆数据的函数
-const fetchVehicles = async () => {
+const fetchVehicle = async () => {
+  if (!userId) {
+    console.error('用户ID未找到，请重新登录')
+    licensePlate.value = ''
+    return
+  }
+
   try {
-    const response = await axios.get('/api/user/vehicles')
-    vehicles.value = Array.isArray(response.data) ? response.data : []
+    // 发送 GET 请求，传递 userId 参数
+    const response = await axios.get(`http://localhost:8080/vehicle`, {
+      params: { userId }
+    })
+    const data = response.data.data;
+    // 如果后端返回车牌号，则赋值；否则为空
+    licensePlate.value = data.carId || ''
   } catch (error) {
     console.error('获取车辆数据失败:', error)
-    vehicles.value = []
-  } finally {
-    loading.value = false // 请求完成后，无论成功或失败都设置为 false
+    licensePlate.value = '' // 如果失败，设置为空
   }
 }
 
 // 组件挂载时调用 API 获取数据
 onMounted(() => {
-  fetchVehicles()
+  fetchVehicle()
 })
 </script>
 
@@ -53,66 +64,11 @@ body {
   background-color: #f5f7fa;
 }
 
-.my-vehicles-page {
-  padding: 20px;
-  max-width: 600px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.no-vehicle {
-  font-size: 20px;
-  color: #777;
-  margin-top: 10px;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 15px;
-  padding: 10px;
-  border-bottom: 1px solid #e0e0e0;
-  transition: background-color 0.3s;
-}
-
-li:hover {
-  background-color: #f0f5ff;
-}
-
-p {
-  margin: 5px 0;
-  font-size: 18px;
-  color: #555;
-}
-
-strong {
-  font-weight: 500;
-  color: #1a73e8;
-}
-
-.loading {
-  font-size: 20px;
-  font-style: italic;
-  color: #888;
-}
-
+/* 返回按钮样式 */
 .back-button-container {
   margin: 20px 0;
   display: flex;
-  justify-content: flex-start; /* 左对齐 */
+  justify-content: flex-start;
 }
 
 .back-button {
@@ -152,6 +108,46 @@ strong {
 .arrow {
   font-size: 20px;
   margin-right: 8px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 立体效果 */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 我的车辆页面样式 */
+.my-vehicle-page {
+  padding: 20px;
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* 车牌号显示区域的样式 */
+.vehicle-info {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+p {
+  margin: 5px 0;
+  font-size: 18px;
+  color: #555;
+}
+
+strong {
+  font-weight: 500;
+  color: #1a73e8;
 }
 </style>
