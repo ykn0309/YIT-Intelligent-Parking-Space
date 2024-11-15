@@ -66,11 +66,13 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "userInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
     public @ResponseBody RespBean userInfo(int userId)
     {
+        System.out.println("gfx");
         User result=userService.userInfo(userId);
         return new RespBean("success","",result);
+        
     }
 
 }

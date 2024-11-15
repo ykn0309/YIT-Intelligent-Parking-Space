@@ -45,15 +45,17 @@ const isEditing = ref(false) // 是否处于编辑状态
 const userId = 1  // 这里用一个固定的 ID，实际情况可以从登录信息获取
 
 // 获取用户信息
-const BASE_URL = 'http://localhost:8080';
+
 const fetchUserInfo = async () => {
   try {
     // 向后端发送请求，通过查询参数传递 userId
-    const response = await axios.get(`${BASE_URL}/api/userInfo`, {
+    const response = await axios.get(`http://localhost:8080/userInfo`, {
       params: { userId: userId }
     });
 
-    const data = response.data;
+    const data = response.data.data;
+
+    console.log(data)
 
     // 更新前端显示的用户信息
     userName.value = data.userName || '';
