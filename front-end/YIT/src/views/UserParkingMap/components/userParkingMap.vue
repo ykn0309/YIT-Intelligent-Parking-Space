@@ -64,17 +64,15 @@
             }
           }
         }
-
-        // 设置目标车位
-        grid[this.path[this.path.length - 2]] = " target";
-        grid[this.path[this.path.length - 1]] = " target";
-        grid[this.path[this.path.length - 2] + this.cols] = " target";
-        grid[this.path[this.path.length - 1] + this.cols] = " target";
-        grid[this.path[this.path.length - 2] + this.cols + this.cols] = " target";
-        grid[this.path[this.path.length - 1] + this.cols + this.cols] = " target";
       });
 
-      
+      // 设置目标车位
+        grid[this.path[this.path.length - 1] - 1] = " target";
+        grid[this.path[this.path.length - 1]] = " target";
+        grid[this.path[this.path.length - 1] - 1 + this.cols] = " target";
+        grid[this.path[this.path.length - 1] + this.cols] = " target";
+        grid[this.path[this.path.length - 1] - 1 + this.cols + this.cols] = " target";
+        grid[this.path[this.path.length - 1] + this.cols + this.cols] = " target";
 
       return grid;
     },
