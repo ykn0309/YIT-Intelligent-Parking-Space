@@ -66,5 +66,5 @@ An intelligent parking space
     set global local_infile=on;
 
     -- 导入数据，自己修改文件路径
-    load data local infile '/home/ykn/y2024/m10/YIT-Intelligent-Parking-Space/map/ParkLocationEntity_a.csv' into table parklocations fields terminated by ',' ignore 1 lines (park_id, xlabel, ylabel, zone, occupied);
+    load data local infile 'map/ParkLocationEntity_a.csv' into table parklocations fields terminated by ',' ignore 1 lines (park_id, xlabel, ylabel, zone, occupied);
     ```

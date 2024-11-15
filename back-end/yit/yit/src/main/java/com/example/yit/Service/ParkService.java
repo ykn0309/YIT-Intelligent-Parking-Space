@@ -99,10 +99,10 @@ public class ParkService {
     {
         occupiedParkRepository.deleteById(parkId);
         ParkLocationEntity temp=parkLocationRepository.findById(parkId).get();
-        temp.setYlabel(0);
-        temp.setXlabel(0);
+        // temp.setYlabel(0);
+        // temp.setXlabel(0);
+        map[temp.getXlabel()][temp.getYlabel()] -= 0b00000100;
         temp.setOccupied(0);
-        parkLocationRepository.save(temp);
         return parkId;
     }
 
