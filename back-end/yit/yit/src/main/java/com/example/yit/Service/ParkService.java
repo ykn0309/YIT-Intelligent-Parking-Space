@@ -189,11 +189,7 @@ public class ParkService {
     public List<Integer> getOccupied()
     {
         List<Integer> result=new ArrayList<>();
-<<<<<<< HEAD
         Iterable<ParkLocationEntity> iterables=parkLocationRepository.findAll();
-=======
-        Iterable<ParkLocationEntity> iterables=parkLocationRepository.findAllByIdOrderByIdAsc();
->>>>>>> cf57281713a976ed359cfb531519df4268c9aa00
         for(ParkLocationEntity PLentity : iterables)
         {
             result.add(PLentity.getOccupied());

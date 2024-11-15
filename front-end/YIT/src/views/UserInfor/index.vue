@@ -45,6 +45,7 @@ const isEditing = ref(false) // 是否处于编辑状态
 const userId = 1  // 这里用一个固定的 ID，实际情况可以从登录信息获取
 
 // 获取用户信息
+const BASE_URL = 'http://localhost:8080';
 const fetchUserInfo = async () => {
   try {
     // 向后端发送请求，通过查询参数传递 userId
