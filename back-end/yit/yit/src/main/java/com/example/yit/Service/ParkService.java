@@ -90,7 +90,7 @@ public class ParkService {
         // PLentity.setYlabel(0);
         // PLentity.setZone(0);
         parkLocationRepository.save(PLentity);
-
+        map[temp.getXlabel()][temp.getYlabel()] += 0b00000100;
         return park.parkId();
     }
 
@@ -103,6 +103,7 @@ public class ParkService {
         // temp.setXlabel(0);
         map[temp.getXlabel()][temp.getYlabel()] -= 0b00000100;
         temp.setOccupied(0);
+        parkLocationRepository.save(temp);
         return parkId;
     }
 
@@ -178,7 +179,7 @@ public class ParkService {
         int destination_x, destination_y;
         destination_x=pathFindingUtil.destination.x;
         destination_y=pathFindingUtil.destination.y;
-        map[destination_x][destination_y] += 0b00000100;
+        // map[destination_x][destination_y] += 0b00000100;
         System.out.println("destination x: " + destination_x + ", y: " + destination_y);
         ParkLocationEntity temp=parkLocationRepository.findByXAndY(destination_x, destination_y).get();
         Road road=new Road(temp.getParkId(), res);
