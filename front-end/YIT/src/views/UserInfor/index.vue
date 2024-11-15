@@ -45,7 +45,6 @@ const isEditing = ref(false) // 是否处于编辑状态
 const userId = 1  // 这里用一个固定的 ID，实际情况可以从登录信息获取
 
 // 获取用户信息
-
 const fetchUserInfo = async () => {
   try {
     // 向后端发送请求，通过查询参数传递 userId
@@ -79,17 +78,26 @@ const cancelEditing = () => {
   fetchUserInfo()  // 恢复原始数据
 }
 
-// 更新用户信息
+// 使用 GET 请求更新用户信息
 const updateUserInfo = async () => {
   try {
-    await axios.put(`${BASE_URL}/api/userInfo`, {
-      userId: userId,  // 使用模拟的 userId
-      userName: userName.value,
-      carId: carId.value
+    // 向后端发送 GET 请求，使用查询字符串传递更新的数据
+    const response = await axios.get(`http://localhost:8080/updateUserInfo`, {
+      params: {
+        userId: userId,
+        userName: userName.value,
+        carId: carId.value
+      }
     })
-    isEditing.value = false
-    alert('更新成功！')
-    fetchUserInfo()  // 更新数据
+
+    // 假设后端返回更新成功的消息
+    if (response.data.success) {
+      isEditing.value = false
+      alert('更新成功！')
+      fetchUserInfo()  // 更新数据
+    } else {
+      alert('更新失败，请稍后再试')
+    }
   } catch (error) {
     console.error('更新用户信息失败:', error)
     alert('更新失败，请稍后再试')

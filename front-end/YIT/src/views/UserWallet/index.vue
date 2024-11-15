@@ -17,14 +17,8 @@
       <div class="modal-content">
         <h3>输入充值金额</h3>
         <input v-model="rechargeAmount" type="number" placeholder="请输入金额" />
-        <button @click="generateQRCode">生成支付二维码</button>
+        <button @click="rechargeBalance">确认充值</button>
         <button @click="closeModal" class="cancel-button">取消</button>
-
-        <!-- 显示二维码 -->
-        <div v-if="qrCodeData">
-          <img :src="qrCodeData" alt="二维码" />
-          <p>请使用微信或支付宝扫码支付</p>
-        </div>
       </div>
     </div>
   </div>
@@ -33,18 +27,23 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import QRCode from 'qrcode'
 
 const balance = ref(0)
 const showModal = ref(false)
 const rechargeAmount = ref('')
-const qrCodeData = ref(null)
+
+// 模拟的用户 ID，实际情况应该通过登录信息获取
+const userId = 1
 
 // 获取用户余额的函数
 const fetchBalance = async () => {
   try {
-    const response = await axios.get('/api/user/wallet')
-    balance.value = response.data.balance || 0
+    const response = await axios.get(`http://localhost:8080/wallet`, {
+      params: { userId: userId }
+    });
+
+    const data = response.data.data;
+    balance.value = data.wallet || 0
   } catch (error) {
     console.error('获取余额失败:', error)
     balance.value = 0
@@ -54,7 +53,6 @@ const fetchBalance = async () => {
 // 充值弹窗控制
 const showRechargeModal = () => {
   rechargeAmount.value = ''
-  qrCodeData.value = null
   showModal.value = true
 }
 
@@ -62,34 +60,41 @@ const closeModal = () => {
   showModal.value = false
 }
 
-// 生成支付二维码
-const generateQRCode = async () => {
+// 充值功能
+const rechargeBalance = async () => {
+  // 检查金额是否合法
   if (!rechargeAmount.value || rechargeAmount.value <= 0) {
-    alert('请输入有效的充值金额')
-    return
+    alert('请输入有效的充值金额');
+    return;
   }
 
   try {
-    const paymentUrl = `/api/payment?amount=${rechargeAmount.value}`
-    const qrCodeUrl = await QRCode.toDataURL(paymentUrl)
-    qrCodeData.value = qrCodeUrl
+    // 通过 GET 请求向后端发送充值请求
+    const response = await axios.get(`http://localhost:8080/recharge`, {
+      params: { userId: userId, wallet: rechargeAmount.value }  // 修改为 wallet
+    });
+
+    // 假设后端返回的响应包含一个状态字段
+    if (response.data.status === 'success') {
+      // 刷新余额
+      await fetchBalance();
+      alert('充值成功！');
+    } else {
+      alert('充值失败：' + response.data.message || '未知错误');
+    }
+    
+    // 关闭弹窗
+    closeModal();  
+
   } catch (error) {
-    console.error('生成二维码失败:', error)
+    console.error('充值失败:', error);
+    alert('充值失败，请稍后再试');
   }
 }
 
-// 扫码支付成功后的回调（模拟）
-const handlePaymentSuccess = async () => {
-  try {
-    await axios.post('/api/user/wallet/recharge', { amount: rechargeAmount.value })
-    await fetchBalance() // 刷新余额
-    alert('充值成功！')
-    closeModal()
-  } catch (error) {
-    console.error('充值失败:', error)
-  }
-}
 
+
+// 页面加载时获取用户余额
 onMounted(() => {
   fetchBalance()
 })
@@ -169,12 +174,6 @@ input {
   margin-top: 10px;
 }
 
-img {
-  margin-top: 20px;
-  width: 200px;
-  height: 200px;
-}
-
 .back-button-container {
   margin: 20px 0;
   display: flex;
@@ -220,5 +219,4 @@ img {
   margin-right: 8px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
-
 </style>
