@@ -71,6 +71,7 @@ const router = createRouter({
             },
             {
               path: 'usermap',
+              
               component: usermap,
             },
            

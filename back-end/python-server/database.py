@@ -48,7 +48,7 @@ def get_parkid_path():
 
     response  = requests.get(url, params=params)
     if response.status_code == 200:
-        data = response.json()
+        data = response.json()['data']
         return data
     else:
         print(f'请求失败，状态码：{response.status_code}')
@@ -64,8 +64,20 @@ def save_parkid_path_to_database(data):
             sql = """ insert into dynamic_map values (%s, %s)"""
             cursor.execute(sql, (id, blob_data))
             connection.commit()
+            return id
     finally:
         connection.close()
 
 def generate_timestamp_id():
     return str(int(time.time() * 1000))  # 毫秒级时间戳
+
+def load_parkid_path_from_database(id):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = f"select data from dynamic_map where id = {id};"
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            return result
+    finally:
+        connection.close()

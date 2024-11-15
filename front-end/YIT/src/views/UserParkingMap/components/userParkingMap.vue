@@ -26,15 +26,21 @@
     },
     data() {
       return {
-        rows: 50, // 行数
-        cols: 50, // 列数
+        rows: 29, // 行数
+        cols: 30, // 列数
         slotSize: { width: 2, height: 3 },
-        aisleWidth: 4,
       };
     },
     computed: {
       grid() {
       const grid = Array(this.rows * this.cols).fill("empty");
+
+      // 设置路径
+    this.path.forEach((pathIndex) => {
+      if (pathIndex - 1 < grid.length) {
+        grid[pathIndex - 1] = "path";
+      }
+    });
 
       this.parkingSlots.forEach(({ slotNumber, occupied }) => {
         const x = (slotNumber - 1) % this.cols;
@@ -58,14 +64,17 @@
             }
           }
         }
+
+        // 设置目标车位
+        grid[this.path[this.path.length - 2]] = " target";
+        grid[this.path[this.path.length - 1]] = " target";
+        grid[this.path[this.path.length - 2] + this.cols] = " target";
+        grid[this.path[this.path.length - 1] + this.cols] = " target";
+        grid[this.path[this.path.length - 2] + this.cols + this.cols] = " target";
+        grid[this.path[this.path.length - 1] + this.cols + this.cols] = " target";
       });
 
-      // 设置路径
-    this.path.forEach((pathIndex) => {
-      if (pathIndex - 1 < grid.length) {
-        grid[pathIndex - 1] = "path";
-      }
-    });
+      
 
       return grid;
     },
@@ -81,8 +90,8 @@
   <style scoped>
   .parking-lot {
     display: grid;
-    grid-template-columns: repeat(50, 2vw); /* 使用 2vw 适应屏幕 */
-    grid-template-rows: repeat(50, 2vw); /* 使用 2vw 适应屏幕 */
+    grid-template-columns: repeat(30, 3vw); /* 使用 3vw 适应屏幕 */
+    grid-template-rows: repeat(29, 3vw); /* 使用 3vw 适应屏幕 */
     
     width: 100vw;
     height: 100vh;
@@ -102,6 +111,11 @@
     width: 100%;
     height: 100%;
     
+  }
+  .target {
+    background-color: yellow;
+    width: 100%;
+    height: 100%;
   }
   .path {
     background-color: blue;

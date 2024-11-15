@@ -21,8 +21,8 @@
     },
     data() {
       return {
-        rows: 50, // 行数
-        cols: 50, // 列数
+        rows: 29, // 行数
+        cols: 30, // 列数
         slotSize: { width: 2, height: 3 },
         aisleWidth: 4,
       };
@@ -69,8 +69,8 @@
   <style scoped>
   .parking-lot {
     display: grid;
-    grid-template-columns: repeat(50, 2vw); /* 使用 2vw 适应屏幕 */
-    grid-template-rows: repeat(50, 2vw); /* 使用 2vw 适应屏幕 */
+    grid-template-columns: repeat(30, 3vw); /* 使用 3vw 适应屏幕 */
+    grid-template-rows: repeat(29, 3vw); /* 使用 3vw 适应屏幕 */
     
     width: 100vw;
     height: 100vh;

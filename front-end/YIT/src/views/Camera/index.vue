@@ -39,7 +39,8 @@
                 <el-descriptions-item label="车位ID">{{ inParkId }}</el-descriptions-item>
                 <el-descriptions-item label="开始时间">{{ inStartTime }}</el-descriptions-item>
             </el-descriptions>
-            <el-button type="primary" @click="addCar1" size="large" style="font-size: 20px;">确认</el-button>
+            <el-button type="primary" @click="addCar1" :disabled="inButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
+            <div>{{ 'http://localhost:5173/mobile/usermap/' + inPageId }}</div>
         </div>
     </div>
     <div class="box">
@@ -83,7 +84,7 @@
                 <el-descriptions-item label="停车时间">{{ parkingTime }}</el-descriptions-item>
                 <el-descriptions-item label="应付金额">{{ cost }}</el-descriptions-item>
             </el-descriptions>
-            <el-button type="primary" @click="deleleCar1" size="large" style="font-size: 20px;">确认</el-button>
+            <el-button type="primary" @click="deleleCar1" :disabled="outButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
         </div>
     </div>
 </div>
@@ -109,26 +110,39 @@
     const outParkId = ref('')
     const parkingTime = ref('')
     const cost = ref('')
-
+    const inPageId = ref()
+    const inButtonDisable = ref(false)
+    const outButtonDisable = ref(false)
 
     const handleSuccess_in: UploadProps['onSuccess'] = (
         response,
         uploadFile
         ) => {
+        inButtonDisable.value = false
         inImgURL.value = URL.createObjectURL(uploadFile.raw!)
-        inMsg.value = response
+        inMsg.value = response.message
+        if (inMsg.value != 'success') {
+            inButtonDisable.value = true
+            return
+        }
         inCarid.value = response.carid
         inStartTime.value = response.startTime
         inUserId.value = response.userid
-        inParkId.value = response.parkid
+        inParkId.value = response.parkId
+        inPageId.value = response.pageId
     }
 
     const handleSuccess_out: UploadProps['onSuccess'] = (
         response,
         uploadFile
         ) => {
+        outButtonDisable.value = false
         outImgURL.value = URL.createObjectURL(uploadFile.raw!)
-        outMsg.value = response
+        outMsg.value = response.message
+        if (outMsg.value != 'success') {
+            inButtonDisable.value = true
+            return
+        }
         outCarid.value = response.carid
         outStartTime.value = response.startTime
         outEndTime.value = response.endTime
