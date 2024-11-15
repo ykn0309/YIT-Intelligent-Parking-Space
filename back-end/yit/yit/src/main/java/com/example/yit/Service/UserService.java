@@ -46,4 +46,11 @@ public class UserService {
             return 1;
         }
     }
+
+    public User userInfo(int userId)
+    {
+        UserEntity temp=userRepository.findById(userId).get();
+        User result=new User(0,temp.getUserName(),null,0,temp.getCarId(),0,0);
+        return result;
+    }
 }
