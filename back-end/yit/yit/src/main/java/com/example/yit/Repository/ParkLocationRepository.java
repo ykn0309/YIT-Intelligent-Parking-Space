@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 public interface ParkLocationRepository extends CrudRepository<ParkLocationEntity, Integer>{
     //List<ParkLocationEntity> findBySomeCriteria();
     @Query("SELECT p FROM ParkLocationEntity p WHERE p.xlabel = :x AND p.ylabel = :y")  
-    Optional<ParkLocationEntity> findByXAndY(@Param("x") int x, @Param("y") int y);  
+    Optional<ParkLocationEntity> findByXAndY(@Param("x") int x, @Param("y") int y);
 }
 

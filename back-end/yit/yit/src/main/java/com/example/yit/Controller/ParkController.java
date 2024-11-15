@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -64,5 +66,11 @@ public class ParkController {
         return new RespBean("success","",road);
     }
 
+    @RequestMapping(value = "getOccupied", method = RequestMethod.GET)
+    public @ResponseBody RespBean getOccupied()
+    {
+        List<Integer> result=parkService.getOccupied();
+        return new RespBean("success","",result);
+    }
 
 }

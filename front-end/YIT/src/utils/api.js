@@ -68,3 +68,14 @@ export async function getPath(pageid) {
         throw new Error('getPath() failed.');
     }
 }
+
+//getOccupied
+export async function getOccupied() {
+    try {
+        const response = await axios.get( `${BASE_URL}/api/getOccupied`);
+        console.log('getOccupied:',response.data)
+        return response.data;
+    } catch (error) {
+        throw new Error('getOccupied() failed.');
+    }
+}

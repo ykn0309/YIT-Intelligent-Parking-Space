@@ -8,7 +8,7 @@
   import { onMounted, ref } from "vue";
   import { useRoute } from 'vue-router';
   import ParkingMap from "./components/userParkingMap.vue";
-  import { getPath } from "@/utils/api";
+  import { getPath, getOccupied } from "@/utils/api";
 
   const route = useRoute()
   const parkingSlots = ref([
@@ -87,6 +87,7 @@
         // 继续添加更多车位数据，尽量覆盖不同区域
           ])
   const path = ref([])
+  const occupied = ref([])
   
   // console.log(path.value)
 
@@ -99,10 +100,33 @@
             console.log('getPath() failed')
         }
     }
+
+  const getOccupied1 = async () => {
+        try {
+            const response = await getOccupied()
+            occupied.value = response
+            console.log(occupied.value)
+
+            // 修改parkingSlots，更正occupied信息
+            if (occupied.value.data.length === parkingSlots.value.length) {
+              parkingSlots.value = parkingSlots.value.map((slot, index) => ({
+                ...slot,
+                occupied: occupied.value.data[index], // 使用 occupied 数组中的值更新状态
+              }));
+            } else {
+              console.error("Occupied data length mismatch!");
+            }
+            console.log('parkingSlots:', parkingSlots.value)
+            
+        } catch(error) {
+            console.log('getOccupied() failed')
+        }
+    }
   
   onMounted(() => {
     const pageid = route.params.pageid
     getPath1(pageid)
+    getOccupied1()
   })
   
 </script>
