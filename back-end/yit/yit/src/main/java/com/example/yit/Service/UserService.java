@@ -47,10 +47,46 @@ public class UserService {
         }
     }
 
+    ///  gfx's functions
+
     public User userInfo(int userId)
     {
         UserEntity temp=userRepository.findById(userId).get();
         User result=new User(0,temp.getUserName(),null,0,temp.getCarId(),0,0);
+        return result;
+    }
+
+    public float wallet(int userId)
+    {
+        UserEntity temp=userRepository.findById(userId).get();
+        float result=temp.getWallet();
+        return result;
+    }
+
+    public float recharge(int userId,float wallet)
+    {
+        UserEntity temp=userRepository.findById(userId).get();
+        float status=temp.getWallet()+wallet;
+        System.out.println("recharge: "+status);
+        temp.setWallet(status);
+        userRepository.save(temp);
+        return status;
+    }
+
+    public int updateUserInfo(int userId, String userName, String carId)
+    {
+        UserEntity temp=userRepository.findById(userId).get();
+        temp.setCarId(carId);
+        temp.setUserName(userName);
+        System.out.println("update id:"+userId+" username:"+userName+" carId:"+carId);
+        userRepository.save(temp);
+        return userId;
+    }
+
+    public String vehicle(int userId)
+    {
+        UserEntity temp=userRepository.findById(userId).get();
+        String result=temp.getCarId();
         return result;
     }
 

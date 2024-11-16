@@ -42,8 +42,8 @@ const fetchBalance = async () => {
       params: { userId: userId }
     });
 
-    const data = response.data.data;
-    balance.value = data.wallet || 0
+    
+    balance.value = response.data.data || 0
   } catch (error) {
     console.error('获取余额失败:', error)
     balance.value = 0

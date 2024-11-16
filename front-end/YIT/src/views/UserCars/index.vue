@@ -41,9 +41,9 @@ const fetchVehicle = async () => {
     const response = await axios.get(`http://localhost:8080/vehicle`, {
       params: { userId }
     })
-    const data = response.data.data;
+    
     // 如果后端返回车牌号，则赋值；否则为空
-    licensePlate.value = data.carId || ''
+    licensePlate.value = response.data.data || ''
   } catch (error) {
     console.error('获取车辆数据失败:', error)
     licensePlate.value = '' // 如果失败，设置为空

@@ -91,7 +91,7 @@ const updateUserInfo = async () => {
     })
 
     // 假设后端返回更新成功的消息
-    if (response.data.success) {
+    if (response.data.status == "success") {
       isEditing.value = false
       alert('更新成功！')
       fetchUserInfo()  // 更新数据
