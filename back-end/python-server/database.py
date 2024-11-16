@@ -7,7 +7,7 @@ import json
 def get_db_connection():
     connection = pymysql.connect(
         host='localhost',
-        user='root',
+        user='springuser',
         password='123456',
         database='db_example',
         cursorclass=pymysql.cursors.DictCursor

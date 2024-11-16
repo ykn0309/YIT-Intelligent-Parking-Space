@@ -41,6 +41,7 @@
             </el-descriptions>
             <el-button type="primary" @click="addCar1" :disabled="inButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
             <div>{{ 'http://localhost:5173/mobile/usermap/' + inPageId }}</div>
+            <canvas ref="canvas" v-if="inConfirmed"></canvas>
         </div>
     </div>
     <div class="box">
@@ -90,10 +91,11 @@
 </div>
 </template>
 <script lang="ts" setup>
-    import { ref } from 'vue'
+    import { computed, ref } from 'vue'
     import type { UploadProps } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
     import { addCar, deleteCar } from '@/utils/api';
+    import QRCode from 'qrcode';
 
     const inImgURL = ref('')
     const outImgURL = ref('')
@@ -113,6 +115,12 @@
     const inPageId = ref()
     const inButtonDisable = ref(false)
     const outButtonDisable = ref(false)
+    const inConfirmed = ref(false)
+    const outConfirmed = ref(false)
+    const QRurl = computed(() => {
+        // 确保 `inPageId` 存在才生成 URL，避免 undefined 导致错误
+        return inPageId.value ? `http://localhost:5173/mobile/usermap/${inPageId.value}` : '';
+    });
 
     const handleSuccess_in: UploadProps['onSuccess'] = (
         response,
@@ -130,6 +138,7 @@
         inUserId.value = response.userid
         inParkId.value = response.parkId
         inPageId.value = response.pageId
+        inConfirmed.value = false
     }
 
     const handleSuccess_out: UploadProps['onSuccess'] = (
@@ -149,7 +158,7 @@
         outUserId.value = response.userid
         outParkId.value = response.parkId
         parkingTime.value = `${response.parkingTime}分钟`
-        cost.value = `${response.cost}元`
+        cost.value = `${response.cost.toFixed(2)}元`
     }
 
     const addCar1 = async () => {
@@ -160,8 +169,10 @@
             startTime: inStartTime.value,
             occupied: true
         }
+        inConfirmed.value = true
         try {
             const response = await addCar(newCar)
+            generateQRCode(); // 生成二维码
         } catch (error) {
             console.log('addCar1() failed')
         }
@@ -175,6 +186,21 @@
             console.log('handleDelete() failed')
         }
     }
+
+    // 画布引用
+    const canvas = ref<HTMLCanvasElement | null>(null);
+
+    // 生成二维码
+    const generateQRCode = () => {
+    // if (canvas.value) {
+        QRCode.toCanvas(canvas.value, QRurl.value, {
+        width: 100, // 二维码宽度
+        margin: 2,  // 二维码边距
+        }).catch((err) => {
+        console.error('生成二维码失败:', err);
+        });
+    // }
+    };
 
 </script>
 <style scoped>
