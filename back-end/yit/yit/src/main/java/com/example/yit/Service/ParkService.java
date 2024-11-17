@@ -23,6 +23,8 @@ public class ParkService {
     ParkLocationRepository parkLocationRepository;
     @Autowired
     ParkRecordRepository parkRecordRepository;
+    @Autowired
+    UserRepository userRepository;
 
     int[][] map = null; // 初始化
     
@@ -95,8 +97,14 @@ public class ParkService {
     }
 
     //车离开停车场
-    public Integer deleteCar(int parkId)
+    //包含扣钱
+    public Integer deleteCar(int parkId, float cost)
     {
+        OccupiedParkEntity OPentity=occupiedParkRepository.findById(parkId).get();
+        UserEntity tempUser=userRepository.findById(OPentity.getUserId()).get();
+        float amount=tempUser.getWallet();
+        tempUser.setWallet(amount-cost);
+        userRepository.save(tempUser);
         occupiedParkRepository.deleteById(parkId);
         ParkLocationEntity temp=parkLocationRepository.findById(parkId).get();
         // temp.setYlabel(0);
