@@ -63,32 +63,7 @@
     const search = ref('')
     const currentEditIndex = ref(null);
     const dialogVisible = ref(false);
-    const tableData = ref([
-        // {
-        //     parkId: 1,
-        //     userId: 123,
-        //     carId: '鄂A12345',
-        //     startTime: '2024-10-01 14:00:56'
-        // },
-        // {
-        //     parkId: 2,
-        //     userId: 456,
-        //     carId: '鄂A67890',
-        //     startTime: '2024-10-02 15:23:12'
-        // },
-        // {
-        //     parkId: 3,
-        //     userId: 789,
-        //     carId: '鄂A56874',
-        //     startTime: '2024-10-02 09:30:02'
-        // },
-        // {
-        //     parkId: 4,
-        //     userId: 259,
-        //     carId: '鄂A89521',
-        //     startTime: '2024-10-01 17:51:35'
-        // },
-    ])
+    const tableData = ref([])
 
     const fetchAllCars = async () => {
         console.log('fetchAllCars')

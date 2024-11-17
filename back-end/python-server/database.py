@@ -81,3 +81,14 @@ def load_parkid_path_from_database(id):
             return result
     finally:
         connection.close()
+
+def get_wallet(id):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = f"select wallet from users where user_id = {id};"
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            return result
+    finally:
+        connection.close()
