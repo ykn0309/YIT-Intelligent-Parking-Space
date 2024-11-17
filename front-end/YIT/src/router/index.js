@@ -70,7 +70,7 @@ const router = createRouter({
               component: center,
             },
             {
-              path: 'usermap',
+              path: 'usermap/:pageid',
               
               component: usermap,
             },
