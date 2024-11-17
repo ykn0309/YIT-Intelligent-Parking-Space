@@ -85,14 +85,19 @@
                 <el-descriptions-item label="停车时间">{{ parkingTime }}</el-descriptions-item>
                 <el-descriptions-item label="应付金额">{{ cost }}</el-descriptions-item>
             </el-descriptions>
-            <el-button type="primary" @click="deleleCar1" :disabled="outButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
-            <div class="outmsg" v-if="outMsg">{{ outMsg }}</div>
+            <div class="out-conf-qr">
+                <el-button type="primary" @click="deleleCar1" :disabled="outButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
+                <div class="out-qr">
+                    <div class="outmsg" v-if="outMsg">{{ outMsg }}</div>
+                    <img :src="qrCodeData"  v-if="outConfirmed" />
+                </div>
+            </div>
         </div>
     </div>
 </div>
 </template>
 <script lang="ts" setup>
-    import { computed, ref } from 'vue'
+    import { computed, onMounted, ref } from 'vue'
     import type { UploadProps } from 'element-plus'
     import { Plus } from '@element-plus/icons-vue'
     import { addCar, deleteCar } from '@/utils/api';
@@ -122,6 +127,7 @@
         // 确保 `inPageId` 存在才生成 URL，避免 undefined 导致错误
         return inPageId.value ? `http://localhost:5173/mobile/usermap/${inPageId.value}` : '';
     });
+    const qrCodeData = ref(null)
 
     const handleSuccess_in: UploadProps['onSuccess'] = (
         response,
@@ -141,11 +147,13 @@
         inConfirmed.value = false
     }
 
-    const handleSuccess_out: UploadProps['onSuccess'] = (
+    const handleSuccess_out: UploadProps['onSuccess'] = async (
         response,
         uploadFile
         ) => {
+        outConfirmed.value = false
         outButtonDisable.value = false
+        outMsg.value = ''
         outImgURL.value = URL.createObjectURL(uploadFile.raw!)
         outCarid.value = response.carid
         outStartTime.value = response.startTime
@@ -155,6 +163,8 @@
         parkingTime.value = `${response.parkingTime}分钟`
         cost.value = `${response.cost.toFixed(2)}元`
         if (response.message == 'nomoney') {
+            outConfirmed.value = true
+            await generateQRCode1()
             outButtonDisable.value = true
             outMsg.value = '余额不足，请扫码充值'
             return
@@ -190,17 +200,31 @@
     // 画布引用
     const canvas = ref<HTMLCanvasElement | null>(null);
 
+
     // 生成二维码
     const generateQRCode = () => {
     // if (canvas.value) {
+    
         QRCode.toCanvas(canvas.value, QRurl.value, {
-        width: 100, // 二维码宽度
+        width: 80, // 二维码宽度
         margin: 2,  // 二维码边距
         }).catch((err) => {
         console.error('生成二维码失败:', err);
         });
     // }
     };
+
+    const generateQRCode1 = async () => {
+        try{
+            const qrCodeUrl = await QRCode.toDataURL('http://localhost:5173/userlogin', {
+            width: 80, // 二维码宽度
+            margin: 2,  // 二维码边距
+            })
+            qrCodeData.value = qrCodeUrl
+        } catch (error) {
+            console.error('生成二维码失败:', error)
+        }
+    }
 
 </script>
 <style scoped>
@@ -265,5 +289,19 @@
 
     .el-descriptions {
         padding: 20px;
+    }
+
+    .out-conf-qr {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .out-qr {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
     }
 </style>
