@@ -65,7 +65,7 @@
 
       <!-- 登录按钮 -->
       <div class="button-container">
-        <button class="login-button blue" @click="handleRegister(registerForm)">注册11</button>
+        <button class="login-button blue" @click="handleRegister(registerForm)">注册</button>
         <button class="login-button white" @click="signUpMode = !signUpMode">去登录</button>
         <!-- <a href="/signup" class="button login-button white" @click="signUp()">注册</a> -->
         <!-- <button class="login-button white" @click="signUpMode = !signUpMode">注册</button> -->
@@ -134,6 +134,8 @@ formEl.validate((valid) => {
               else{
                   alert('用户不存在或者密码错误');
               }
+              // sessionStorage.setItem('userId', loginUser.value.username);
+
               console.log('服务器响应:', response);
               // 成功回调
           })
