@@ -8,8 +8,6 @@
   </div>
 </template>
 
-
-
   
   <script>
   export default {
@@ -77,7 +75,7 @@
     background-color: white;
   }
   .empty {
-  background-color: lightgray;
+  background-color: white;
 }
   .occupied {
     background-color: red;

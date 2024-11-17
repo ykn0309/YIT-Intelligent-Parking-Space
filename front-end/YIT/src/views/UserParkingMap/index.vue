@@ -131,13 +131,14 @@
   
 </script>
   
-<style>
+<style scoped>
   .map {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: calc(100vh - 0px);
-    width: calc(100vw - 181px);
+    height: calc(100vh - 102px);
+    width: 100vw;
+    overflow: auto;
   }
 </style>
   
