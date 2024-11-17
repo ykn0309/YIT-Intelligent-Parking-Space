@@ -26,7 +26,7 @@ const licensePlate = ref('') // 存储车牌号，默认空字符串
 
 // 获取用户ID
 //const userId = sessionStorage.getItem('userId')
-const userId = 1;
+const userId = window.sessionStorage.getItem('userid') 
 
 // 获取车辆数据的函数
 const fetchVehicle = async () => {

@@ -35,6 +35,9 @@ public class UserController {
         String password=u.password();
         String username= u.userName();
         UserEntity a=userService.getUserById(username);
+        System.out.println("登录查询:");
+        System.out.println(username);
+        System.out.println(password);
         if(a==null){return new RespBean("failure", "0",null);}
         List<String> value = new ArrayList<>();
         value.add(Long.toString(a.getUserId()));
@@ -58,6 +61,8 @@ public class UserController {
         userEntity.setUserName(username);
         userEntity.setPassword(password);
         System.out.println("addUser");
+        System.out.println("username");
+        System.out.println("password");
         int result = userService.addNewUser(userEntity);
         if(result==1){
             return new RespBean("success", "1",null);

@@ -15,7 +15,7 @@
       <!-- 输入框 -->
       <div class="input-container">       
         <!-- <el-form-item prop="username" align-items="center"> -->
-          <input type="text" class="login-input" v-model="loginUser.username" placeholder="用户名">
+          <input type="text" class="login-input" v-model="loginUser.userName" placeholder="用户名">
         <!-- </el-form-item> -->
         <!-- <el-form-item prop="username"> -->
           <input type="password" class="login-input" v-model="loginUser.password" placeholder="密码">
@@ -25,7 +25,7 @@
 
       <!-- 登录按钮 -->
       <div class="button-container">
-        <button class="login-button blue" @click="handleLogin(loginForm)">登录</button>
+        <button class="login-button blue" @click="handleLogin(loginForm)"@click.prevent = "handleSubmit">登录</button>
         <button class="login-button white" @click="signUpMode = !signUpMode">注册</button>
         <!-- <a href="/signup" class="button login-button white" @click="signUp()">注册</a> -->
         <!-- <button class="login-button white" @click="signUpMode = !signUpMode">注册</button> -->
@@ -58,14 +58,16 @@
 
       <!-- 输入框 -->
       <div class="input-container">
-        <input type="text" class="login-input" placeholder="输入用户名">
-        <input type="password" class="login-input" placeholder="输入密码">
-        <input type="password" class="login-input" placeholder="确认密码">
+        
+
+        <input type="text" class="login-input" v-model = "registerUser.userName" placeholder="输入用户名">
+        <input type="password" class="login-input" v-model = "registerUser.password" placeholder="输入密码">
+        <input type="password" class="login-input" v-model = "registerUser.password2" placeholder="确认密码">
       </div>
 
       <!-- 登录按钮 -->
       <div class="button-container">
-        <button class="login-button blue" @click="handleRegister(registerForm)">注册</button>
+        <button class="login-button blue" @click="handleRegister(registerForm)"@click.prevent = "handleSubmit">注册</button>
         <button class="login-button white" @click="signUpMode = !signUpMode">去登录</button>
         <!-- <a href="/signup" class="button login-button white" @click="signUp()">注册</a> -->
         <!-- <button class="login-button white" @click="signUpMode = !signUpMode">注册</button> -->
@@ -98,10 +100,10 @@ import { onMounted } from 'vue';
 // import api from '@/apis';
 
 
-import router from '@/router';
 import http from '@/utils/http';
+import { useRouter } from 'vue-router'
 
-
+const router = useRouter()
 
 //import { ref } from 'vue';
 const agree = ref(false); // 用于绑定勾选框的状态
@@ -109,7 +111,7 @@ const loginForm = ref<FormInstance>()
 const registerForm= ref<FormInstance>()
 const signUpMode = ref(false);
 const loginUser = ref({
-  username: "",
+  userName: "",
   password: "",
 })
 
@@ -118,38 +120,68 @@ const loginUser = ref({
 //   // this.$router.push('/signup');
 // }
 
-function handleLogin(formEl: FormInstance | undefined) {    
-    if (!formEl) return
-formEl.validate((valid) => {
-  if (valid) {
-    http.post('http://localhost:8080/login', loginUser.value)
+function handleLogin() {
+  http.post('http://localhost:8080/login', loginUser.value)
       .then(response => {
             console.log(response)
+         
         if (response.status == 'success') {
-          router.push('map');
           window.sessionStorage.setItem('userid', response.data[0])
-          window.sessionStorage.setItem('username', response.data[1])
+          window.sessionStorage.setItem('userName', response.data[1])
+          router.push('mobile');
+        
           // window.sessionStorage.setItem('nickname', response.value[1])
               }
               else{
                   alert('用户不存在或者密码错误');
               }
               // sessionStorage.setItem('userId', loginUser.value.username);
-
+              
               console.log('服务器响应:', response);
+              
               // 成功回调
-          })
-          .catch(error => {
-              console.error('There was an error!', error);
-              // 失败回调
           });
-    //console.log('submit!')
-  } else {
-    console.log('error submit!')
-    return false
-  }
-})
+
 }
+
+
+// function handleLogin(formEl: FormInstance | undefined) {    
+//     if (!formEl) return
+// formEl.validate((valid) => {
+//   if (valid) {
+
+//     http.post('http://localhost:8080/login', loginUser.value)
+//       .then(response => {
+//             console.log(response)
+//         if (response.status == 'success') {
+          
+//           window.sessionStorage.setItem('userid', response.data[0])
+//           window.sessionStorage.setItem('userName', response.data[1])
+//           console.log('aaa')
+//           router.push('map');
+//           // window.sessionStorage.setItem('nickname', response.value[1])
+//               }
+//               else{
+//                   alert('用户不存在或者密码错误');
+//               }
+//               // sessionStorage.setItem('userId', loginUser.value.username);
+              
+//               console.log('服务器响应:', response);
+              
+//               // 成功回调
+//           })
+//           .catch(error => {
+            
+//               console.error('There was an error!', error);
+//               // 失败回调
+//           });
+//     //console.log('submit!')
+//   } else {
+//     console.log('error submit!')
+//     return false
+//   }
+// })
+// }
 
 const rules = ref({
   username: [{ required: true, message: "用户名不能为空", trigger: 'blur' }],
@@ -161,10 +193,17 @@ const rules = ref({
 
 //注册
 const registerUser = ref({
-username: "",
+userName: "",
 password: "",
 password2:"",
 })
+
+// const registerUser1 = ref({
+// userName: "",
+// password: "",
+// })
+
+
 const validatePass2 = (rule: any, value: any, callback: any) => {
 if (value === '') {
   callback(new Error('请再次输入密码'))
@@ -190,8 +229,12 @@ const registerRules = ref({
 function handleRegister(formEl: FormInstance | undefined) {    
     if (!formEl) return
 formEl.validate((valid) => {
+  
   if (valid) {
-    http.post('http://localhost:8080/register', registerUser.value)
+    if(registerUser.value.password == registerUser.value.password2){
+      console.log(registerUser.value.password)
+      console.log(registerUser.value.password2)
+      http.post('http://localhost:8080/register', registerUser.value)
       .then(response => {
             console.log(response)
         if (response.status == 'success') {
@@ -211,6 +254,13 @@ formEl.validate((valid) => {
               // 失败回调
           });
     console.log('submit!')
+    } else {
+      alert('两次输入的密码不一致！')
+      return false
+    }
+    
+   
+ 
   } else {
     console.log('error submit!')
     return false

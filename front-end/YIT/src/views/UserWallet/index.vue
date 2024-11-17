@@ -33,7 +33,7 @@ const showModal = ref(false)
 const rechargeAmount = ref('')
 
 // 模拟的用户 ID，实际情况应该通过登录信息获取
-const userId = 1
+const userId = window.sessionStorage.getItem('userid') 
 
 // 获取用户余额的函数
 const fetchBalance = async () => {

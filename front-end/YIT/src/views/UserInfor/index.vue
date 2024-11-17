@@ -42,7 +42,7 @@ const carId = ref('')     // 车牌号
 const isEditing = ref(false) // 是否处于编辑状态
 
 // 模拟的用户 ID，通常应该从登录状态中获取
-const userId = 1  // 这里用一个固定的 ID，实际情况可以从登录信息获取
+const userId = window.sessionStorage.getItem('userid')  // 这里用一个固定的 ID，实际情况可以从登录信息获取
 
 // 获取用户信息
 const fetchUserInfo = async () => {

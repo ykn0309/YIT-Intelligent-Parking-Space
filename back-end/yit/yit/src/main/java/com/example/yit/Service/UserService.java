@@ -29,6 +29,7 @@ public class UserService {
     public UserEntity getUserById(String username){
         Optional<UserEntity> p = userRepository.findByUserName(username);
         if(p.isPresent()){
+            System.out.println("获取密码：");
             return p.get();}
         else {
             return null;
@@ -42,6 +43,7 @@ public class UserService {
             return 0;
         }
         else{
+            System.out.println("注册用户：");
             userRepository.save(userEntity);
             return 1;
         }
