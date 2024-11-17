@@ -4,6 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 import com.example.yit.Entity.ParkLocationEntity;
+import com.example.yit.Entity.UserEntity;
+
 import org.springframework.data.jpa.repository.Query;  
 import org.springframework.data.repository.query.Param;  
 

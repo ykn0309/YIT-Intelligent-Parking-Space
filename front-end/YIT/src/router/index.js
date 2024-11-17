@@ -11,7 +11,11 @@ import parkingMap from '@/views/ParkingMap/index.vue'
 import camera from '@/views/Camera/index.vue'
 import usermap from '@/views/UserParkingMap/index.vue'
 import usercenter from '@/views/UserCenter/index.vue'
-
+import userinformation from '@/views/UserInfor/index.vue'
+import userwallet from '@/views/UserWallet/index.vue'
+import usercars from '@/views/UserCars/index.vue'
+import usercenteroption from '@/views/UsercenterOption/index.vue'
+////
 
 
 const router = createRouter({
@@ -62,17 +66,40 @@ const router = createRouter({
           component: usernav,
           children:[
             {
-              path: '/mobile/center',
+              path: 'center',
               component: center,
             },
             {
-              path: '/mobile/usermap/:pageid',
+              path: 'usermap/:pageid',
+              
               component: usermap,
             },
+           
             {
-              path: '/mobile/usercenter',
+              path: 'usercenter',
               component: usercenter,
+              children:
+              [
+                {
+                  path: '',
+                  component: usercenteroption,
+                },
+                {
+                  path: 'userinformation',
+                  component: userinformation,
+                },
+                {
+                  path: 'userwallet',
+                  component: userwallet,
+                },
+                {
+                  path: 'usercars',
+                  component: usercars,
+                },
+                
+              ]
             },
+            
           ]
         },
       ],

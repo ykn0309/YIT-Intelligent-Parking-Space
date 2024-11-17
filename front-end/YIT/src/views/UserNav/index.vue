@@ -2,8 +2,7 @@
 <template>
   <div id="app">
     <div class="tabs">
-      <router-link to="/mobile/center" class="tab-item">车位管理</router-link>
-      <router-link to="/mobile/usermap" class="tab-item">用户状态</router-link>
+      <router-link to="/mobile/usermap" class="tab-item">车位管理</router-link>
       <router-link to="/mobile/usercenter" class="tab-item">个人中心</router-link>
     </div>
     <div class="content">

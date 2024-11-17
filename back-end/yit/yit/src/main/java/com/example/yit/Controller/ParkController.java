@@ -49,11 +49,11 @@ public class ParkController {
     }
 
     @RequestMapping(value = "deleteCar", method = RequestMethod.GET)
-    public @ResponseBody RespBean deleteCar(int parkId, String endTime)
+    public @ResponseBody RespBean deleteCar(int parkId, String endTime,float cost)
     {
-        System.out.println("减少汽车：");
+        System.out.println("减少汽车+扣除余额：");
         parkService.addRecord(parkId, endTime);
-        parkService.deleteCar(parkId);
+        parkService.deleteCar(parkId,cost);
         return new RespBean("success","",null);
     }
 
@@ -69,8 +69,10 @@ public class ParkController {
     @RequestMapping(value = "getOccupied", method = RequestMethod.GET)
     public @ResponseBody RespBean getOccupied()
     {
+        System.out.println("获取车位信息：");
         List<Integer> result=parkService.getOccupied();
         return new RespBean("success","",result);
     }
+
 
 }

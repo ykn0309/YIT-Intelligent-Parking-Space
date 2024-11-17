@@ -7,7 +7,7 @@ import json
 def get_db_connection():
     connection = pymysql.connect(
         host='localhost',
-        user='root',
+        user='springuser',
         password='123456',
         database='db_example',
         cursorclass=pymysql.cursors.DictCursor
@@ -76,6 +76,17 @@ def load_parkid_path_from_database(id):
     try:
         with connection.cursor() as cursor:
             sql = f"select data from dynamic_map where id = {id};"
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            return result
+    finally:
+        connection.close()
+
+def get_wallet(id):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = f"select wallet from users where user_id = {id};"
             cursor.execute(sql)
             result = cursor.fetchone()
             return result

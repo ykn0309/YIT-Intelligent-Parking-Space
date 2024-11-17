@@ -87,6 +87,10 @@ def park_exit():
     minutes = int(parking_time.total_seconds() / 60)
     cost = minutes * 0.1
 
+    wallet = get_wallet(userid)['wallet']
+    if wallet < cost:
+        return jsonify({'message': 'nomoney', 'userid': userid, 'carid': carid, 'parkId' : parkId, 'startTime' : startTime ,'endTime' : endTime, 'parkingTime' : minutes, 'cost' : cost}), 200
+
     return jsonify({'message': 'success', 'userid': userid, 'carid': carid, 'parkId' : parkId, 'startTime' : startTime ,'endTime' : endTime, 'parkingTime' : minutes, 'cost' : cost}), 200
 
 @app.route('/api/getPath', methods=['GET'])

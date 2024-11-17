@@ -35,6 +35,9 @@ public class UserController {
         String password=u.password();
         String username= u.userName();
         UserEntity a=userService.getUserById(username);
+        System.out.println("登录查询:");
+        System.out.println(username);
+        System.out.println(password);
         if(a==null){return new RespBean("failure", "0",null);}
         List<String> value = new ArrayList<>();
         value.add(Long.toString(a.getUserId()));
@@ -57,7 +60,9 @@ public class UserController {
         String password= u.password();
         userEntity.setUserName(username);
         userEntity.setPassword(password);
-        System.out.println("11111111");
+        System.out.println("addUser");
+        System.out.println("username");
+        System.out.println("password");
         int result = userService.addNewUser(userEntity);
         if(result==1){
             return new RespBean("success", "1",null);
@@ -65,5 +70,47 @@ public class UserController {
             return new RespBean("failure", "0",null);
         }
     }
+
+    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
+    public @ResponseBody RespBean userInfo(int userId)
+    {
+        System.out.println("userInfo");
+        User result=userService.userInfo(userId);
+        return new RespBean("success","",result);
+        
+    }
+
+    @RequestMapping(value = "/wallet", method = RequestMethod.GET)
+    public @ResponseBody RespBean wallet(int userId)
+    {
+        System.out.println("getWallet");
+        float result=userService.wallet(userId);
+        return new RespBean("success","",result);
+    }
+
+    @RequestMapping(value = "/recharge", method = RequestMethod.GET)
+    public @ResponseBody RespBean recharge(int userId,float wallet)
+    {
+        System.out.println("recharge");
+        float result=userService.recharge( userId, wallet);
+        return new RespBean("success","",result);
+    }
+
+    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.GET)
+    public @ResponseBody RespBean updateUserInfo(int userId, String userName, String carId)
+    {
+        System.out.println("updateUserInfo");
+        Integer result=userService.updateUserInfo(  userId,  userName, carId);
+        return new RespBean("success","",result);
+    }
+
+    @RequestMapping(value = "/vehicle", method = RequestMethod.GET)
+    public @ResponseBody RespBean vehicle(int userId)
+    {
+        System.out.println("getCarId");
+        String result=userService.vehicle(  userId);
+        return new RespBean("success","",result);
+    }
+    
 
 }
