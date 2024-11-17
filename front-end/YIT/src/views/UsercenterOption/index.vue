@@ -43,7 +43,7 @@ import {
 const currentActive = ref(window.location.pathname);
 </script>
 
-<style>
+<style scoped>
 .nav {
   display: flex;
   flex-direction: column;
