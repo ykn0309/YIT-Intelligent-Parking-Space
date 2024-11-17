@@ -76,11 +76,11 @@ public class UserEntity {
     }
 
     // location
-    public Integer getLocation() {
+    public Integer getParkId() {
         return parkId;
     }
 
-    public void setLocation(Integer parkId) {
+    public void setParkId(Integer parkId) {
         this.parkId = parkId;
     }
 }

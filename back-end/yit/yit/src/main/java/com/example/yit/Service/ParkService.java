@@ -77,6 +77,9 @@ public class ParkService {
     {
         OccupiedParkEntity OPentity=new OccupiedParkEntity();
         //ParkLocationEntity PLentity=new ParkLocationEntity();
+        UserEntity userEntity=userRepository.findById(park.userId()).get();
+        userEntity.setParkId(park.parkId());
+        userRepository.save(userEntity);
 
         OPentity.setCarId(park.carId());
         OPentity.setParkId(park.parkId());
@@ -104,6 +107,7 @@ public class ParkService {
         UserEntity tempUser=userRepository.findById(OPentity.getUserId()).get();
         float amount=tempUser.getWallet();
         tempUser.setWallet(amount-cost);
+        tempUser.setParkId(9999);
         userRepository.save(tempUser);
         occupiedParkRepository.deleteById(parkId);
         ParkLocationEntity temp=parkLocationRepository.findById(parkId).get();
