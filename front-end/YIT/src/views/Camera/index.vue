@@ -86,6 +86,7 @@
                 <el-descriptions-item label="应付金额">{{ cost }}</el-descriptions-item>
             </el-descriptions>
             <el-button type="primary" @click="deleleCar1" :disabled="outButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
+            <div class="outmsg" v-if="outMsg">{{ outMsg }}</div>
         </div>
     </div>
 </div>
@@ -111,7 +112,7 @@
     const inParkId = ref('')
     const outParkId = ref('')
     const parkingTime = ref('')
-    const cost = ref('')
+    const cost = ref()
     const inPageId = ref()
     const inButtonDisable = ref(false)
     const outButtonDisable = ref(false)
@@ -128,8 +129,7 @@
         ) => {
         inButtonDisable.value = false
         inImgURL.value = URL.createObjectURL(uploadFile.raw!)
-        inMsg.value = response.message
-        if (inMsg.value != 'success') {
+        if (response.message != 'success') {
             inButtonDisable.value = true
             return
         }
@@ -147,11 +147,6 @@
         ) => {
         outButtonDisable.value = false
         outImgURL.value = URL.createObjectURL(uploadFile.raw!)
-        outMsg.value = response.message
-        if (outMsg.value != 'success') {
-            inButtonDisable.value = true
-            return
-        }
         outCarid.value = response.carid
         outStartTime.value = response.startTime
         outEndTime.value = response.endTime
@@ -159,6 +154,11 @@
         outParkId.value = response.parkId
         parkingTime.value = `${response.parkingTime}分钟`
         cost.value = `${response.cost.toFixed(2)}元`
+        if (response.message == 'nomoney') {
+            outButtonDisable.value = true
+            outMsg.value = '余额不足，请扫码充值'
+            return
+        }
     }
 
     const addCar1 = async () => {
@@ -180,7 +180,7 @@
 
     const deleleCar1 = async () => {
         try {
-            const response = await deleteCar(outParkId.value, outEndTime.value)
+            const response = await deleteCar(outParkId.value, outEndTime.value, cost.value)
             console.log('delete')
         } catch(error) {
             console.log('handleDelete() failed')
