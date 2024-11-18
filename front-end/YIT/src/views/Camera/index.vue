@@ -83,7 +83,7 @@
                 <el-descriptions-item label="开始时间">{{ outStartTime }}</el-descriptions-item>
                 <el-descriptions-item label="结束时间">{{ outEndTime }}</el-descriptions-item>
                 <el-descriptions-item label="停车时间">{{ parkingTime }}</el-descriptions-item>
-                <el-descriptions-item label="应付金额">{{ cost + '元'}}</el-descriptions-item>
+                <el-descriptions-item label="应付金额">{{ cost }}</el-descriptions-item>
             </el-descriptions>
             <div class="out-conf-qr">
                 <el-button type="primary" @click="deleleCar1" :disabled="outButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
@@ -191,6 +191,10 @@
     const deleleCar1 = async () => {
         try {
             const response = await deleteCar(outParkId.value, outEndTime.value, cost.value)
+            console.log(response)
+            if (response.status== 'success') {
+                outMsg.value = '付款成功'
+            }
             console.log('delete')
         } catch(error) {
             console.log('handleDelete() failed')
