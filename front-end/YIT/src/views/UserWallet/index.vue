@@ -17,7 +17,7 @@
       <div class="modal-content">
         <h3>输入充值金额</h3>
         <input v-model="rechargeAmount" type="number" placeholder="请输入金额" />
-        <button @click="rechargeBalance">确认充值</button>
+        <button @click="rechargeBalance" class="confirm-button">确认充值</button>
         <button @click="closeModal" class="cancel-button">取消</button>
       </div>
     </div>
@@ -172,6 +172,17 @@ input {
   color: #fff;
   padding: 10px;
   margin-top: 10px;
+  width: 80px;
+  margin: 5px;
+}
+
+.confirm-button {
+  background-color: #0aaa52;
+  color: #fff;
+  padding: 10px;
+  margin-top: 10px;
+  width: 80px;
+  margin: 5px ;
 }
 
 .back-button-container {
