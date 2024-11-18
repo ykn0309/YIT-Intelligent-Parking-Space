@@ -83,7 +83,7 @@
                 <el-descriptions-item label="开始时间">{{ outStartTime }}</el-descriptions-item>
                 <el-descriptions-item label="结束时间">{{ outEndTime }}</el-descriptions-item>
                 <el-descriptions-item label="停车时间">{{ parkingTime }}</el-descriptions-item>
-                <el-descriptions-item label="应付金额">{{ cost }}</el-descriptions-item>
+                <el-descriptions-item label="应付金额">{{ cost + '元'}}</el-descriptions-item>
             </el-descriptions>
             <div class="out-conf-qr">
                 <el-button type="primary" @click="deleleCar1" :disabled="outButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
@@ -161,7 +161,7 @@
         outUserId.value = response.userid
         outParkId.value = response.parkId
         parkingTime.value = `${response.parkingTime}分钟`
-        cost.value = `${response.cost.toFixed(2)}元`
+        cost.value = response.cost.toFixed(2)
         if (response.message == 'nomoney') {
             outConfirmed.value = true
             await generateQRCode1()

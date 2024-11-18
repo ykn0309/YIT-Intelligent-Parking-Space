@@ -120,7 +120,7 @@
 
     const handleDelete = async (index, row) => {
         try {
-            const response = await deleteCar(row.parkId)
+            const response = await deleteCar(row.parkId, '0', 0)
             tableData.value.splice(index, 1)
             console.log('delete')
         } catch(error) {
