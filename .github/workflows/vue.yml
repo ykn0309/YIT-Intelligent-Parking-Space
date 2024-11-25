@@ -21,3 +21,11 @@ jobs:
         cd front-end/YIT
         npm install
         npm run build
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+    -name: Build back-end
+      run: |
+        cd back-end/yit/yit
+        ./mvnw clean install
