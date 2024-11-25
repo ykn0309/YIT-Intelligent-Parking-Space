@@ -49,19 +49,23 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3  # 设置 Buildx
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}  # Docker Hub 用户名
-        password: ${{ secrets.DOCKER_PASSWORD }}  # Docker Hub 密码或访问令牌
-
     - name: Build Docker image
       run: |
         cd back-end/python-server
         pwd
         ls
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/python-server:$GITHUB_SHA .  # 用当前的 Git commit hash 标记 Docker 镜像
-
-    - name: Push Docker image
-      run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/python-server:$GITHUB_SHA  # 将镜像推送到 Docker Hub
+        docker build -t yit-python-server:$GITHUB_SHA .  
+        - name: Save Docker image as tar file
+        run: |
+          docker save -o python-server-$GITHUB_SHA.tar python-server:$GITHUB_SHA
+          scp python-server-$GITHUB_SHA.tar root@${{ secrets.REMOTE_HOST }} /root/yit/
+  
+    # - name: Copy Docker image to remote server
+    #   uses: appleboy/ssh-action@v1.2.0
+    #   with:
+    #     host: ${{ secrets.REMOTE_HOST }}
+    #     username: ${{ secrets.REMOTE_USER }}
+    #     key: ${{ secrets.REMOTE_SSH_KEY }}
+    #     port: ${{ secrets.REMOTE_PORT }}
+    #     script: |
+          
