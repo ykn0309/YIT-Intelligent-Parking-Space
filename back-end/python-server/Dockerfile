@@ -5,7 +5,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # 将项目文件复制到容器中
-COPY back-end/python-server ./python-server
+COPY . ./python-server
 
 # 安装依赖
 RUN pip install --no-cache-dir -r requirements.txt
