@@ -13,38 +13,38 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up nodejs
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
+    # - name: Set up nodejs
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: '18'
 
-    - name: Package Vue
-      run: |
-        cd front-end/YIT
-        npm install
-        npm run build
+    # - name: Package Vue
+    #   run: |
+    #     cd front-end/YIT
+    #     npm install
+    #     npm run build
 
-    - name: Copy front-end build to back-end
-      run: |
-        cp -r front-end/YIT/dist/ back-end/yit/yit/src/main/resources/static/
+    # - name: Copy front-end build to back-end
+    #   run: |
+    #     cp -r front-end/YIT/dist/ back-end/yit/yit/src/main/resources/static/
 
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '21'
+    # - name: Set up Java
+    #   uses: actions/setup-java@v4
+    #   with:
+    #     distribution: 'temurin'
+    #     java-version: '21'
 
-    - name: Build back-end
-      run: |
-        cd back-end/yit/yit
-        chmod +x ./mvnw
-        ./mvnw clean install -DskipTests
+    # - name: Build back-end
+    #   run: |
+    #     cd back-end/yit/yit
+    #     chmod +x ./mvnw
+    #     ./mvnw clean install -DskipTests
       
-    - name: Upload JAR Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: yit-jar
-        path: back-end/yit/yit/target/*.jar
+    # - name: Upload JAR Artifact
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: yit-jar
+    #     path: back-end/yit/yit/target/*.jar
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3  # 设置 Buildx
@@ -58,6 +58,8 @@ jobs:
     - name: Build Docker image
       run: |
         cd back-end/python-server
+        pwd
+        ls
         docker build -t python-server:$GITHUB_SHA .  # 用当前的 Git commit hash 标记 Docker 镜像
 
     - name: Push Docker image
