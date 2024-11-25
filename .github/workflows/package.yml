@@ -52,22 +52,26 @@ jobs:
     - name: Build Docker image
       run: |
         cd back-end/python-server
-        docker build -t yit-python-server:$GITHUB_SHA .  
+        docker build -t yit-python-server .  
 
-    - name: Save Docker image as tar file
+    - name: Save Docker image as tar file and copy it to server
       run: |
-        docker save -o yit-python-server-$GITHUB_SHA.tar yit-python-server:$GITHUB_SHA
+        docker save -o yit-python-server.tar yit-python-server
         echo "${{ secrets.REMOTE_SSH_KEY }}" > ssh_key
         chmod 600 ssh_key
-        scp -i ssh_key -o StrictHostKeyChecking=no yit-python-server-$GITHUB_SHA.tar root@${{ secrets.REMOTE_HOST }}:/root/yit/
+        scp -i ssh_key -o StrictHostKeyChecking=no yit-python-server.tar root@${{ secrets.REMOTE_HOST }}:/root/yit/
   
-        
-    # - name: Copy Docker image to remote server
-    #   uses: appleboy/ssh-action@v1.2.0
-    #   with:
-    #     host: ${{ secrets.REMOTE_HOST }}
-    #     username: ${{ secrets.REMOTE_USER }}
-    #     key: ${{ secrets.REMOTE_SSH_KEY }}
-    #     port: ${{ secrets.REMOTE_PORT }}
-    #     script: |
+
+    - name: Login remote server and run image
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ secrets.REMOTE_PORT }}
+        script: |
+          tar -xvf yit-python-server.tar
+          docker load -i yit-python-server.tar
+          docker run -d --name yit-python-server-container yit-python-server
+
           
