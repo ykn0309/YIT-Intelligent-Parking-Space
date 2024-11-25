@@ -60,8 +60,8 @@ jobs:
         cd back-end/python-server
         pwd
         ls
-        docker build -t python-server:$GITHUB_SHA .  # 用当前的 Git commit hash 标记 Docker 镜像
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/python-server:$GITHUB_SHA .  # 用当前的 Git commit hash 标记 Docker 镜像
 
     - name: Push Docker image
       run: |
-        docker push ykn0309/python-server:$GITHUB_SHA  # 将镜像推送到 Docker Hub
+        docker push ${{ secrets.DOCKER_USERNAME }}/python-server:$GITHUB_SHA  # 将镜像推送到 Docker Hub
