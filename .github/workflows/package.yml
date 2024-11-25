@@ -57,6 +57,7 @@ jobs:
     - name: Save Docker image as tar file and copy it to server
       run: |
         docker save -o yit-python-server.tar yit-python-server:latest
+        ls -info
         echo "${{ secrets.REMOTE_SSH_KEY }}" > ssh_key
         chmod 600 ssh_key
         scp -i ssh_key -o StrictHostKeyChecking=no yit-python-server.tar root@${{ secrets.REMOTE_HOST }}:/root/yit/

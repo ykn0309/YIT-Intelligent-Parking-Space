@@ -8,6 +8,7 @@ WORKDIR /app/python-server
 COPY . .
 
 # 安装依赖
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
 RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -r requirements.txt
 
