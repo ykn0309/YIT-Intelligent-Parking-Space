@@ -52,11 +52,11 @@ jobs:
     - name: Build Docker image
       run: |
         cd back-end/python-server
-        docker build -t yit-python-server .  
+        docker build -t yit-python-server:latest .  
 
     - name: Save Docker image as tar file and copy it to server
       run: |
-        docker save -o yit-python-server.tar yit-python-server
+        docker save -o yit-python-server.tar yit-python-server:latest
         echo "${{ secrets.REMOTE_SSH_KEY }}" > ssh_key
         chmod 600 ssh_key
         scp -i ssh_key -o StrictHostKeyChecking=no yit-python-server.tar root@${{ secrets.REMOTE_HOST }}:/root/yit/
@@ -70,8 +70,7 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_PORT }}
         script: |
-          tar -xvf yit-python-server.tar
           docker load -i yit-python-server.tar
-          docker run -d --name yit-python-server-container yit-python-server
+          docker run -d --name yit-python-server-container yit-python-server:latest
 
           
