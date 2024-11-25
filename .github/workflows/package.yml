@@ -58,6 +58,7 @@ jobs:
       run: |
         docker save -o yit-python-server-$GITHUB_SHA.tar yit-python-server:$GITHUB_SHA
         echo "${{ secrets.REMOTE_SSH_KEY }}" > ssh_key
+        chmod 600 ssh_key
         scp -i ssh_key -o StrictHostKeyChecking=no yit-python-server-$GITHUB_SHA.tar root@${{ secrets.REMOTE_HOST }}:/root/yit/
   
     # - name: Copy Docker image to remote server
