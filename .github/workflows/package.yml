@@ -51,13 +51,14 @@ jobs:
 
     - name: Build Docker image
       run: |
+        ls ~/.ssh
         cd back-end/python-server
         docker build -t yit-python-server:$GITHUB_SHA .  
 
-    - name: Save Docker image as tar file
-      run: |
-        docker save -o yit-python-server-$GITHUB_SHA.tar yit-python-server:$GITHUB_SHA
-        scp -i ~/.ssh/github-actions-key yit-python-server-$GITHUB_SHA.tar root@${{ secrets.REMOTE_HOST }}:/root/yit/
+    # - name: Save Docker image as tar file
+    #   run: |
+    #     docker save -o yit-python-server-$GITHUB_SHA.tar yit-python-server:$GITHUB_SHA
+    #     scp -i ~/.ssh/github-actions-key yit-python-server-$GITHUB_SHA.tar root@${{ secrets.REMOTE_HOST }}:/root/yit/
   
     # - name: Copy Docker image to remote server
     #   uses: appleboy/ssh-action@v1.2.0
