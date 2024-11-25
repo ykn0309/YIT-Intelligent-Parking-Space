@@ -45,3 +45,20 @@ jobs:
       with:
         name: yit-jar
         path: back-end/yit/yit/target/*.jar
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3  # 设置 Buildx
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}  # Docker Hub 用户名
+        password: ${{ secrets.DOCKER_PASSWORD }}  # Docker Hub 密码或访问令牌
+
+    - name: Build Docker image
+      run: |
+        docker build -t python-server:$GITHUB_SHA .  # 用当前的 Git commit hash 标记 Docker 镜像
+
+    - name: Push Docker image
+      run: |
+        docker push python-server:$GITHUB_SHA  # 将镜像推送到 Docker Hub
