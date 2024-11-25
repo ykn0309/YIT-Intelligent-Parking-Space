@@ -72,12 +72,12 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_PORT }}
         script: |
-          cd /root/yit
-          docker load -i yit-python-server.tar
-          rm yit-python-server.tar
           docker stop yit-python-server-container
           docker rm yit-python-server-container
           docker rmi yit-python-server:latest
+          cd /root/yit
+          docker load -i yit-python-server.tar
+          rm yit-python-server.tar
           docker run -d --name yit-python-server-container yit-python-server:latest
 
           
