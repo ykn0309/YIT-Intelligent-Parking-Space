@@ -64,4 +64,4 @@ jobs:
 
     - name: Push Docker image
       run: |
-        docker push python-server:$GITHUB_SHA  # 将镜像推送到 Docker Hub
+        docker push ykn0309/python-server:$GITHUB_SHA  # 将镜像推送到 Docker Hub
