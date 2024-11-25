@@ -57,6 +57,7 @@ jobs:
 
     - name: Build Docker image
       run: |
+        cd back-end/python-server
         docker build -t python-server:$GITHUB_SHA .  # 用当前的 Git commit hash 标记 Docker 镜像
 
     - name: Push Docker image
