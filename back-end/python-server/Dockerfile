@@ -9,6 +9,7 @@ COPY . .
 
 # 安装依赖
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
 # 设置容器启动时运行的命令
 CMD ["python", "server.py"]

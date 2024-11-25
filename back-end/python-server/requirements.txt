@@ -45,9 +45,6 @@ traitlets
 typing-extensions
 urllib3
 wcwidth
-torch
-torchvision
-torchaudio
 Flask
 flask_cors
 pymysql
