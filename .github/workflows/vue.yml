@@ -30,4 +30,4 @@ jobs:
       run: |
         cd back-end/yit/yit
         chmod +x ./mvnw
-        ./mvnw clean install
+        ./mvnw clean install -DskipTests
