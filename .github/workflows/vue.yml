@@ -20,4 +20,4 @@ jobs:
       run: |
         cd front-end/YIT
         npm install
-        npm build
+        npm run build
