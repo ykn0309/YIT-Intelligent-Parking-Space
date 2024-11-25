@@ -29,4 +29,5 @@ jobs:
     - name: Build back-end
       run: |
         cd back-end/yit/yit
+        chmod +x ./mvnw
         ./mvnw clean install
