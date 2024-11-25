@@ -53,6 +53,7 @@ jobs:
       run: |
         cd back-end/python-server
         docker build -t yit-python-server:$GITHUB_SHA .  
+        
     - name: Save Docker image as tar file
       run: |
         docker save -o yit-python-server-$GITHUB_SHA.tar yit-python-server:$GITHUB_SHA
