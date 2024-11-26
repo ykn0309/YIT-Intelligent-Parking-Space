@@ -44,25 +44,7 @@ jobs:
     #   uses: actions/upload-artifact@v3
     #   with:
     #     name: yit-jar
-    #     path: back-end/yit/yit/target/*.jar
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3  # 设置 Buildx
-
-    - name: Build Docker image
-      run: |
-        cd back-end/python-server
-        docker build -t yit-python-server:latest .  
-
-    - name: Save Docker image as tar file and copy it to server
-      run: |
-        docker save -o yit-python-server.tar yit-python-server:latest
-        ls -info
-        echo "${{ secrets.REMOTE_SSH_KEY }}" > ssh_key
-        chmod 600 ssh_key
-        scp -i ssh_key -o StrictHostKeyChecking=no yit-python-server.tar root@${{ secrets.REMOTE_HOST }}:/root/yit/
-        rm ssh_key
-  
+    #     path: back-end/yit/yit/target/*.jar  
 
     - name: Login remote server and run image
       uses: appleboy/ssh-action@v1.2.0
@@ -76,8 +58,9 @@ jobs:
           docker rm yit-python-server-container
           docker rmi yit-python-server:latest
           cd /root/yit
-          docker load -i yit-python-server.tar
-          rm yit-python-server.tar
+          rm -r YIT-Intelligent-Parking-Space
+          git clone -b main https://github.com/ykn0309/YIT-Intelligent-Parking-Space.git
+          docker docker build -t yit-python-server:latest .
           docker run -d --name yit-python-server-container yit-python-server:latest
 
           
