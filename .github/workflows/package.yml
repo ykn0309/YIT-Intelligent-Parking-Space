@@ -63,5 +63,3 @@ jobs:
           cd YIT-Intelligent-Parking-Space/back-end/python-server
           docker build -t yit-python-server:latest .
           docker run -d --name yit-python-server-container yit-python-server:latest
-
-          
