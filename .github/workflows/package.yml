@@ -60,7 +60,8 @@ jobs:
           cd /root/yit
           rm -r YIT-Intelligent-Parking-Space
           git clone -b main https://github.com/ykn0309/YIT-Intelligent-Parking-Space.git
-          docker docker build -t yit-python-server:latest .
+          cd YIT-Intelligent-Parking-Space/back-end/python-server
+          docker build -t yit-python-server:latest .
           docker run -d --name yit-python-server-container yit-python-server:latest
 
           
