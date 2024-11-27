@@ -6,46 +6,50 @@ on:
       - main
 
 jobs:
-  front-end:
+  # vue and java:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v4
+
+  #   - name: Set up nodejs
+  #     uses: actions/setup-node@v4
+  #     with:
+  #       node-version: '18'
+
+  #   - name: Package Vue
+  #     run: |
+  #       cd front-end/YIT
+  #       npm install
+  #       npm run build
+
+  #   - name: Copy front-end build to back-end
+  #     run: |
+  #       cp -r front-end/YIT/dist/ back-end/yit/yit/src/main/resources/static/
+
+  #   - name: Set up Java
+  #     uses: actions/setup-java@v4
+  #     with:
+  #       distribution: 'temurin'
+  #       java-version: '21'
+
+  #   - name: Build back-end
+  #     run: |
+  #       cd back-end/yit/yit
+  #       chmod +x ./mvnw
+  #       ./mvnw clean install -DskipTests
+      
+  #   - name: Upload JAR Artifact
+  #     uses: actions/upload-artifact@v3
+  #     with:
+  #       name: yit-jar
+  #       path: back-end/yit/yit/target/*.jar  
+
+  python-server:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    # - name: Set up nodejs
-    #   uses: actions/setup-node@v4
-    #   with:
-    #     node-version: '18'
-
-    # - name: Package Vue
-    #   run: |
-    #     cd front-end/YIT
-    #     npm install
-    #     npm run build
-
-    # - name: Copy front-end build to back-end
-    #   run: |
-    #     cp -r front-end/YIT/dist/ back-end/yit/yit/src/main/resources/static/
-
-    # - name: Set up Java
-    #   uses: actions/setup-java@v4
-    #   with:
-    #     distribution: 'temurin'
-    #     java-version: '21'
-
-    # - name: Build back-end
-    #   run: |
-    #     cd back-end/yit/yit
-    #     chmod +x ./mvnw
-    #     ./mvnw clean install -DskipTests
-      
-    # - name: Upload JAR Artifact
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: yit-jar
-    #     path: back-end/yit/yit/target/*.jar  
-
     - name: Login remote server and run image
       uses: appleboy/ssh-action@v1.2.0
       with:
@@ -57,7 +61,7 @@ jobs:
           docker stop yit-python-server-container
           docker rm yit-python-server-container
           docker rmi yit-python-server:latest
-          cd /root/yit
+          cd /home/ubuntu
           rm -r YIT-Intelligent-Parking-Space
           git clone -b main https://github.com/ykn0309/YIT-Intelligent-Parking-Space.git
           cd YIT-Intelligent-Parking-Space/back-end/python-server
