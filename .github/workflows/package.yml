@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  vue and springboot:
+  vue-springboot:
     runs-on: ubuntu-latest
 
     steps:
