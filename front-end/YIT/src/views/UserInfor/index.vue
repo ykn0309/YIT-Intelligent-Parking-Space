@@ -48,7 +48,7 @@ const userId = window.sessionStorage.getItem('userid')  // 这里用一个固定
 const fetchUserInfo = async () => {
   try {
     // 向后端发送请求，通过查询参数传递 userId
-    const response = await axios.get(`http://localhost:8080/userInfo`, {
+    const response = await axios.get(`http://146.56.222.81:8080/userInfo`, {
       params: { userId: userId }
     });
 
@@ -82,7 +82,7 @@ const cancelEditing = () => {
 const updateUserInfo = async () => {
   try {
     // 向后端发送 GET 请求，使用查询字符串传递更新的数据
-    const response = await axios.get(`http://localhost:8080/updateUserInfo`, {
+    const response = await axios.get(`http://146.56.222.81:8080/updateUserInfo`, {
       params: {
         userId: userId,
         userName: userName.value,

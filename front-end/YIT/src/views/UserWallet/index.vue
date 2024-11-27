@@ -38,7 +38,7 @@ const userId = window.sessionStorage.getItem('userid')
 // 获取用户余额的函数
 const fetchBalance = async () => {
   try {
-    const response = await axios.get(`http://localhost:8080/wallet`, {
+    const response = await axios.get(`http://146.56.222.81:8080/wallet`, {
       params: { userId: userId }
     });
 
@@ -70,7 +70,7 @@ const rechargeBalance = async () => {
 
   try {
     // 通过 GET 请求向后端发送充值请求
-    const response = await axios.get(`http://localhost:8080/recharge`, {
+    const response = await axios.get(`http://146.56.222.81:8080/recharge`, {
       params: { userId: userId, wallet: rechargeAmount.value }  // 修改为 wallet
     });
 

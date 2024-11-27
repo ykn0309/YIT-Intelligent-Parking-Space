@@ -145,7 +145,7 @@ formEl.validate((valid) => {
   
   
   if (valid) {
-    http.post('http://localhost:8080/login', loginUser.value)
+    http.post('http://146.56.222.81:8080/login', loginUser.value)
       .then(response => {
             console.log(response)
         if (response.status == 'success') {
@@ -212,7 +212,7 @@ function handleRegister(formEl: FormInstance | undefined) {
     if (!formEl) return
 formEl.validate((valid) => {
   if (valid) {
-    http.post('http://localhost:8080/register', registerUser.value)
+    http.post('http://146.56.222.81:8080/register', registerUser.value)
       .then(response => {
             console.log(response)
         if (response.status == 'success') {

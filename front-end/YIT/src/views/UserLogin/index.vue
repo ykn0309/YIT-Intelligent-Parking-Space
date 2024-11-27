@@ -121,7 +121,7 @@ const loginUser = ref({
 // }
 
 function handleLogin() {
-  http.post('http://localhost:8080/login', loginUser.value)
+  http.post('http://146.56.222.81:8080/login', loginUser.value)
       .then(response => {
             console.log(response)
          
@@ -150,7 +150,7 @@ function handleLogin() {
 // formEl.validate((valid) => {
 //   if (valid) {
 
-//     http.post('http://localhost:8080/login', loginUser.value)
+//     http.post('http://146.56.222.81:8080/login', loginUser.value)
 //       .then(response => {
 //             console.log(response)
 //         if (response.status == 'success') {
@@ -234,7 +234,7 @@ formEl.validate((valid) => {
     if(registerUser.value.password == registerUser.value.password2){
       console.log(registerUser.value.password)
       console.log(registerUser.value.password2)
-      http.post('http://localhost:8080/register', registerUser.value)
+      http.post('http://146.56.222.81:8080/register', registerUser.value)
       .then(response => {
             console.log(response)
         if (response.status == 'success') {

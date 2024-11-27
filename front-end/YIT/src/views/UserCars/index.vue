@@ -38,7 +38,7 @@ const fetchVehicle = async () => {
 
   try {
     // 发送 GET 请求，传递 userId 参数
-    const response = await axios.get(`http://localhost:8080/vehicle`, {
+    const response = await axios.get(`http://146.56.222.81:8080/vehicle`, {
       params: { userId }
     })
     
