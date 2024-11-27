@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:8080';
-const PYTHON_SERVER_URL = 'http://localhost:5000'
+const BASE_URL = 'http://146.56.222.81:8080';
+const PYTHON_SERVER_URL = 'http://146.56.222.81:5000'
 
 //getAllCars
 export async function getAllCars() {

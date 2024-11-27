@@ -43,7 +43,7 @@ def find_occupied(carid):
         connection.close()
 
 def get_parkid_path():
-    url = "http://localhost:8080/api/getRoad"
+    url = "http://146.56.222.81:8080/api/getRoad"
     params = {'xlabel' : 0, 'ylabel' : 0}
 
     response  = requests.get(url, params=params)
