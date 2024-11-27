@@ -74,4 +74,3 @@ jobs:
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/python-server
           docker build -t yit-python-server:latest .
           docker run -d --network host --name yit-python-server-container yit-python-server:latest
-
