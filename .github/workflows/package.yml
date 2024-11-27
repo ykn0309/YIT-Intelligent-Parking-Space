@@ -60,6 +60,7 @@ jobs:
     needs: get-latest
     runs-on: ubuntu-latest
 
+    steps:
     - name: Login remote server and run image
       uses: appleboy/ssh-action@v1.2.0
       with:
