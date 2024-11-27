@@ -6,54 +6,10 @@ on:
       - main
 
 jobs:
-  vue-springboot:
-    runs-on: ubuntu-latest
-
+  get-latest:
+    runs-on ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up nodejs
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-
-    - name: Package Vue
-      run: |
-        cd front-end/YIT
-        npm install
-        npm run build
-
-    - name: Copy front-end build to back-end
-      run: |
-        cp -r front-end/YIT/dist/ back-end/yit/yit/src/main/resources/static/
-
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '21'
-
-    - name: Build back-end
-      run: |
-        cd back-end/yit/yit
-        chmod +x ./mvnw
-        ./mvnw clean install -DskipTests
-      
-    - name: Upload JAR Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: yit-jar
-        path: back-end/yit/yit/target/*.jar
-    
-    - name: Send jar to remote server
-      run: |
-        echo "${{ secrets.REMOTE_SSH_KEY }}" > ssh_key
-        chmod 600 ssh_key
-        cp back-end/yit/yit/target/*.jar yit.jar
-        scp -i ssh_key -o StrictHostKeyChecking=no yit.jar ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/yit/
-
-    - name: Login remote server and run image
+    -name: Login in remote server and clone latest repo
       uses: appleboy/ssh-action@v1.2.0
       with:
         host: ${{ secrets.REMOTE_HOST }}
@@ -64,11 +20,43 @@ jobs:
           docker stop yit-vue-springboot-container
           docker rm yit-vue-springboot-container
           docker rmi yit-vue-springboot:latest
+          docker stop yit-python-server-container
+          docker rm yit-python-server-container
+          docker rmi yit-python-server:latest
+          cd /home/ubuntu/yit
+          rm -r YIT-Intelligent-Parking-Space
+          git clone -b main https://github.com/ykn0309/YIT-Intelligent-Parking-Space.git
+
+  vue-springboot:
+    needs: get-latest
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Login remote server and run image
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ secrets.REMOTE_PORT }}
+        script: |
+          cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/front-end/YIT
+          cp -r front-end/YIT/dist/ back-end/yit/yit/src/main/resources/static/
+          npm install
+          npm run build
+          cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/yit/yit
+          chmod +x ./mvnw
+          ./mvnw clean install -DskipTests
+          mv /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/yit/yit/target/*.jar /home/ubuntu/yit/yit.jar
           cd /home/ubuntu/yit
           docker build -t yit-vue-springboot .
           docker run -d -p 8080:8080 --name yit-vue-springboot-container yit-vue-springboot
 
   python-server:
+    needs: get-latest
     runs-on: ubuntu-latest
 
     steps:
@@ -80,13 +68,7 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_PORT }}
         script: |
-          docker stop yit-python-server-container
-          docker rm yit-python-server-container
-          docker rmi yit-python-server:latest
-          cd /home/ubuntu/yit
-          rm -r YIT-Intelligent-Parking-Space
-          git clone -b main https://github.com/ykn0309/YIT-Intelligent-Parking-Space.git
-          cd YIT-Intelligent-Parking-Space/back-end/python-server
+          cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/python-server
           docker build -t yit-python-server:latest .
           docker run -d --name yit-python-server-container yit-python-server:latest
 
