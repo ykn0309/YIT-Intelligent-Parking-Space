@@ -10,22 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     -name: Login in remote server and clone latest repo
-      uses: appleboy/ssh-action@v1.2.0
-      with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        key: ${{ secrets.REMOTE_SSH_KEY }}
-        port: ${{ secrets.REMOTE_PORT }}
-        script: |
-          docker stop yit-vue-springboot-container
-          docker rm yit-vue-springboot-container
-          docker rmi yit-vue-springboot:latest
-          docker stop yit-python-server-container
-          docker rm yit-python-server-container
-          docker rmi yit-python-server:latest
-          cd /home/ubuntu/yit
-          rm -r YIT-Intelligent-Parking-Space
-          git clone -b main https://github.com/ykn0309/YIT-Intelligent-Parking-Space.git
+    uses: appleboy/ssh-action@v1.2.0
+    with:
+      host: ${{ secrets.REMOTE_HOST }}
+      username: ${{ secrets.REMOTE_USER }}
+      key: ${{ secrets.REMOTE_SSH_KEY }}
+      port: ${{ secrets.REMOTE_PORT }}
+      script: |
+        docker stop yit-vue-springboot-container
+        docker rm yit-vue-springboot-container
+        docker rmi yit-vue-springboot:latest
+        docker stop yit-python-server-container
+        docker rm yit-python-server-container
+        docker rmi yit-python-server:latest
+        cd /home/ubuntu/yit
+        rm -r YIT-Intelligent-Parking-Space
+        git clone -b main https://github.com/ykn0309/YIT-Intelligent-Parking-Space.git
 
   vue-springboot:
     needs: get-latest
