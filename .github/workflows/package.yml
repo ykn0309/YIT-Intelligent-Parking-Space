@@ -50,7 +50,8 @@ jobs:
       run: |
         echo "${{ secrets.REMOTE_SSH_KEY }}" > ssh_key
         chmod 600 ssh_key
-        scp -i ssh_key -o StrictHostKeyChecking=no back-end/yit/yit/target/*.jar ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/yit/
+        cp back-end/yit/yit/target/*.jar yit.jar
+        scp -i ssh_key -o StrictHostKeyChecking=no yit.jar ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/yit/
 
     - name: Login remote server and run image
       uses: appleboy/ssh-action@v1.2.0
@@ -88,3 +89,4 @@ jobs:
           cd YIT-Intelligent-Parking-Space/back-end/python-server
           docker build -t yit-python-server:latest .
           docker run -d --name yit-python-server-container yit-python-server:latest
+
