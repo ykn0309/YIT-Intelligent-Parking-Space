@@ -23,9 +23,11 @@ jobs:
           docker stop yit-python-server-container
           docker rm yit-python-server-container
           docker rmi yit-python-server:latest
-          cd /home/ubuntu/yit
-          rm -r YIT-Intelligent-Parking-Space
-          git clone -b main https://github.com/ykn0309/YIT-Intelligent-Parking-Space.git
+          cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space
+          rm -r front-end/YIT/dist/
+          rm -r back-end/yit/yit/src/main/resources/static/
+          rm /home/ubuntu/yit/yit.jar
+          git pull
 
   vue-springboot:
     needs: get-latest
