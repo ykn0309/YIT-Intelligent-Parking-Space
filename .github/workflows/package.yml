@@ -32,9 +32,9 @@ jobs:
           rm /home/ubuntu/yit/yit.jar
           rm /home/ubuntu/yit/Dockerfile
           rm /home/ubuntu/yit/map_a.csv
+          git pull
           cp back-end/yit/yit/Dockerfile /home/ubuntu/yit/
           cp map/map_a.csv /home/ubuntu/yit/
-          git pull
 
   vue:
     needs: get-latest
