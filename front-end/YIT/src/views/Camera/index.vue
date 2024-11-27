@@ -5,7 +5,7 @@
             <span class="label">入口</span>
             <el-upload 
                 class="uploader"
-                action="http://127.0.0.1:5000/api/entrance" 
+                action="http://146.56.222.81:5000/api/entrance" 
                 :show-file-list="false"
                 :on-success="handleSuccess_in"
                 :auto-upload="true"
@@ -49,7 +49,7 @@
             <span class="label">出口</span>
             <el-upload 
                 class="uploader"
-                action="http://127.0.0.1:5000/api/exit" 
+                action="http://146.56.222.81:5000/api/exit" 
                 :show-file-list="false"
                 :on-success="handleSuccess_out"
                 :auto-upload="true"
