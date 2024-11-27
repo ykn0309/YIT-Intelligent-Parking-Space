@@ -23,8 +23,8 @@ jobs:
           docker stop springboot-container
           docker rm springboot-container
           docker rmi springboot
-          docker stop python-server
-          docker rm python-server
+          docker stop python-server-container
+          docker rm python-server-container
           docker rmi python-server
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space
           rm -r front-end/YIT/dist/
@@ -91,4 +91,4 @@ jobs:
         script: |
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/python-server
           docker build -t python-server .
-          docker run -d --network host --name yit-python-server-container yit-python-server
+          docker run -d --network host --name python-server-container python-server
