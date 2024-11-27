@@ -6,45 +6,66 @@ on:
       - main
 
 jobs:
-  # vue and java:
-  #   runs-on: ubuntu-latest
+  vue and springboot:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-  #   - name: Set up nodejs
-  #     uses: actions/setup-node@v4
-  #     with:
-  #       node-version: '18'
+    - name: Set up nodejs
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
 
-  #   - name: Package Vue
-  #     run: |
-  #       cd front-end/YIT
-  #       npm install
-  #       npm run build
+    - name: Package Vue
+      run: |
+        cd front-end/YIT
+        npm install
+        npm run build
 
-  #   - name: Copy front-end build to back-end
-  #     run: |
-  #       cp -r front-end/YIT/dist/ back-end/yit/yit/src/main/resources/static/
+    - name: Copy front-end build to back-end
+      run: |
+        cp -r front-end/YIT/dist/ back-end/yit/yit/src/main/resources/static/
 
-  #   - name: Set up Java
-  #     uses: actions/setup-java@v4
-  #     with:
-  #       distribution: 'temurin'
-  #       java-version: '21'
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
 
-  #   - name: Build back-end
-  #     run: |
-  #       cd back-end/yit/yit
-  #       chmod +x ./mvnw
-  #       ./mvnw clean install -DskipTests
+    - name: Build back-end
+      run: |
+        cd back-end/yit/yit
+        chmod +x ./mvnw
+        ./mvnw clean install -DskipTests
       
-  #   - name: Upload JAR Artifact
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: yit-jar
-  #       path: back-end/yit/yit/target/*.jar  
+    - name: Upload JAR Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: yit-jar
+        path: back-end/yit/yit/target/*.jar
+    
+    - name: Send jar to remote server
+      run: |
+        echo "${{ secrets.REMOTE_SSH_KEY }}" > ssh_key
+        chmod 600 ssh_key
+        scp -i ssh_key -o StrictHostKeyChecking=no back-end/yit/yit/target/*.jar ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/yit/
+
+    - name: Login remote server and run image
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ secrets.REMOTE_PORT }}
+        script: |
+          docker stop yit-vue-springboot-container
+          docker rm yit-vue-springboot-container
+          docker rmi yit-vue-springboot:latest
+          cd /home/ubuntu/yit
+          docker build -t yit-vue-springboot .
+          docker run -d -p 8080:8080 --name yit-vue-springboot-container yit-vue-springboot
 
   python-server:
     runs-on: ubuntu-latest
