@@ -24,6 +24,11 @@ public class ParkController {
     @Autowired
     ParkService parkService;
 
+    @RequestMapping("/{path:[^\\.]*}")
+    public String redirect() {
+        return "forward:/index.html";
+    }
+
     @RequestMapping(value = "/getCarsMap", method = RequestMethod.GET)
     public @ResponseBody RespBean getCarsMap()
     {
