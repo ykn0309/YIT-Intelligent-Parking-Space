@@ -19,8 +19,7 @@ import usercenteroption from '@/views/UsercenterOption/index.vue'
 
 
 const router = createRouter({
-  // history: createWebHistory(import.meta.env.BASE_URL),
-  mode: 'hash',
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/login',
