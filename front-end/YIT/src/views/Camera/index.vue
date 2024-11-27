@@ -40,7 +40,7 @@
                 <el-descriptions-item label="开始时间">{{ inStartTime }}</el-descriptions-item>
             </el-descriptions>
             <el-button type="primary" @click="addCar1" :disabled="inButtonDisable" size="large" style="font-size: 20px;">确认</el-button>
-            <div v-if="inConfirmed">{{ 'http://146.56.222.81:8080/mobile/usermap/' + inPageId }}</div>
+            <div v-if="inConfirmed">{{ 'http://146.56.222.81/mobile/usermap/' + inPageId }}</div>
             <canvas ref="canvas" v-if="inConfirmed"></canvas>
         </div>
     </div>
@@ -125,7 +125,7 @@
     const outConfirmed = ref(false)
     const QRurl = computed(() => {
         // 确保 `inPageId` 存在才生成 URL，避免 undefined 导致错误
-        return inPageId.value ? `http://146.56.222.81:8080/mobile/usermap/${inPageId.value}` : '';
+        return inPageId.value ? `http://146.56.222.81/mobile/usermap/${inPageId.value}` : '';
     });
     const qrCodeData = ref(null)
 
@@ -220,7 +220,7 @@
 
     const generateQRCode1 = async () => {
         try{
-            const qrCodeUrl = await QRCode.toDataURL('http://146.56.22.81:8080/userlogin', {
+            const qrCodeUrl = await QRCode.toDataURL('http://146.56.22.81/userlogin', {
             width: 80, // 二维码宽度
             margin: 2,  // 二维码边距
             })

@@ -30,6 +30,10 @@ jobs:
           rm -r front-end/YIT/dist/
           rm -r back-end/yit/yit/src/main/resources/static/
           rm /home/ubuntu/yit/yit.jar
+          rm /home/ubuntu/yit/Dockerfile
+          rm /home/ubuntu/yit/map_a.csv
+          cp back-end/yit/yit/Dockerfile /home/ubuntu/yit/
+          cp map/map_a.csv /home/ubuntu/yit/
           git pull
 
   vue:
@@ -55,10 +59,6 @@ jobs:
   springboot:
     needs: get-latest
     runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
 
     - name: Login remote server and run image
       uses: appleboy/ssh-action@v1.2.0
