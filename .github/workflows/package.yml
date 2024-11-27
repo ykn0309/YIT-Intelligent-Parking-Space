@@ -44,7 +44,8 @@ jobs:
         port: ${{ secrets.REMOTE_PORT }}
         script: |
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/front-end/YIT
-          npm install
+          cnpm install
+          cnpm install @element-plus/icons-vue
           npm run build
           cp -r /home/ubuntu/yit/YIT-Intelligent-Parking-Space/front-end/YIT/dist/ /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/yit/yit/src/main/resources/static/
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/yit/yit
