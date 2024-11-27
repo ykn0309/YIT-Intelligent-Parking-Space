@@ -19,7 +19,7 @@ import com.example.yit.Service.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class ParkController {
     @Autowired
     ParkService parkService;

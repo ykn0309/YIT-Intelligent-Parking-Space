@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController  //表明这是一个控制器类
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 //@RequestMapping("/index")   //处理 /article 路径下的请求
 public class UserController {
     @Autowired  //将 ArticleService 服务注入到控制器中，用于处理文章相关的逻辑。
