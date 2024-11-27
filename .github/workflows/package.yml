@@ -56,7 +56,7 @@ jobs:
           mv /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/yit/yit/target/*.jar /home/ubuntu/yit/yit.jar
           cd /home/ubuntu/yit
           docker build -t yit-vue-springboot .
-          docker run -d -p 8080:8080 --network host --name yit-vue-springboot-container yit-vue-springboot
+          docker run -d --network host --name yit-vue-springboot-container yit-vue-springboot
 
   python-server:
     needs: get-latest
@@ -73,4 +73,4 @@ jobs:
         script: |
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/python-server
           docker build -t yit-python-server:latest .
-          docker run -d --name yit-python-server-container yit-python-server:latest
+          docker run -d --network host --name yit-python-server-container yit-python-server:latest
