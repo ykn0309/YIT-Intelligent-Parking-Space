@@ -19,7 +19,7 @@ import usercenteroption from '@/views/UsercenterOption/index.vue'
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // history: createWebHistory(import.meta.env.BASE_URL),
   mode: 'history',
   routes: [
     {
