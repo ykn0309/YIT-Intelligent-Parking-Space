@@ -17,19 +17,42 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_PORT }}
         script: |
-          docker stop yit-vue-springboot-container
-          docker rm yit-vue-springboot-container
-          docker rmi yit-vue-springboot:latest
-          docker stop yit-python-server-container
-          docker rm yit-python-server-container
-          docker rmi yit-python-server:latest
+          docker stop vue-container
+          docker rm vue-container
+          docker rmi vue
+          docker stop springboot-container
+          docker rm springboot-container
+          docker rmi springboot
+          docker stop python-server
+          docker rm python-server
+          docker rmi python-server
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space
           rm -r front-end/YIT/dist/
           rm -r back-end/yit/yit/src/main/resources/static/
           rm /home/ubuntu/yit/yit.jar
           git pull
 
-  vue-springboot:
+  vue:
+    needs: get-latest
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Login remote server and run image
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        port: ${{ secrets.REMOTE_PORT }}
+        script: |
+          cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/front-end/YIT
+          cnpm install
+          cnpm install @element-plus/icons-vue
+          npm run build
+          docker build -t vue .
+          docker run -d --network host --name vue-container vue
+
+  springboot:
     needs: get-latest
     runs-on: ubuntu-latest
 
@@ -45,18 +68,13 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_PORT }}
         script: |
-          cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/front-end/YIT
-          cnpm install
-          cnpm install @element-plus/icons-vue
-          npm run build
-          cp -r /home/ubuntu/yit/YIT-Intelligent-Parking-Space/front-end/YIT/dist/ /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/yit/yit/src/main/resources/static/
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/yit/yit
           chmod +x ./mvnw
           ./mvnw clean install -DskipTests
           mv /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/yit/yit/target/*.jar /home/ubuntu/yit/yit.jar
           cd /home/ubuntu/yit
-          docker build -t yit-vue-springboot .
-          docker run -d --network host --name yit-vue-springboot-container yit-vue-springboot
+          docker build -t springboot .
+          docker run -d --network host --name springboot-container springboot
 
   python-server:
     needs: get-latest
@@ -72,5 +90,5 @@ jobs:
         port: ${{ secrets.REMOTE_PORT }}
         script: |
           cd /home/ubuntu/yit/YIT-Intelligent-Parking-Space/back-end/python-server
-          docker build -t yit-python-server:latest .
-          docker run -d --network host --name yit-python-server-container yit-python-server:latest
+          docker build -t python-server .
+          docker run -d --network host --name yit-python-server-container yit-python-server
